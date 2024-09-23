@@ -4,7 +4,7 @@ This guide will help you set up a serverless application with an Angular fronten
 
 ## Prerequisites
 
-Before you start, ensure you have the following:
+Before you start, first ensure you have the following:
 
 - **AWS Account**: Create an account on [AWS](https://aws.amazon.com/) if you don’t have one.
 - **AWS CLI**: Install and configure the AWS Command Line Interface with your account details. Instructions can be found [here](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html).
