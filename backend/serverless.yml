@@ -10,17 +10,6 @@ plugins:
 
 resources:
   Resources:
-    UsersTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: users
-        AttributeDefinitions:
-          - AttributeName: username
-            AttributeType: S
-        KeySchema:
-          - AttributeName: username
-            KeyType: HASH
-        BillingMode: PAY_PER_REQUEST
     EmployeeTable:
       Type: AWS::DynamoDB::Table
       Properties:
@@ -32,6 +21,18 @@ resources:
           - AttributeName: employeeName
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
+    UsersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: users
+        AttributeDefinitions:
+          - AttributeName: username
+            AttributeType: S
+        KeySchema:
+          - AttributeName: username
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+
 
 
 functions:
@@ -42,10 +43,10 @@ functions:
           path: login
           method: post
           cors: true
-  EmployeeInfo:
-    handler: src/handlers/EmployeeInfo.handler
+  employeeInfo:
+    handler: src/handlers/employeeInfo.handler
     events:
       - http:
-          path: EmployeeInfo
+          path: employeeInfo
           method: post
           cors: true
