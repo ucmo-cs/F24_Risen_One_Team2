@@ -9,14 +9,14 @@ module.exports.handler = async (event) => {
     const params = {
         TableName: process.env.EMPLOYEES_TABLE,
         Key: {
-            employeeName: requestBody.employeeName
+            employeeID: requestBody.employeeID
         }
     };
 
     try {
         const data = await dynamoDb.get(params).promise();
 
-        if (!data.Item || data.Item.employeeName !== requestBody.employeeName) {
+        if (!data.Item || data.Item.employeeID !== requestBody.employeeID) {
             return {
                 statusCode: 401,
                 body: JSON.stringify({ message: 'Employee does not exist' })
