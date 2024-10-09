@@ -21,6 +21,18 @@ resources:
           - AttributeName: username
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
+    EmployeeTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: employees
+        AttributeDefinitions:
+          - AttributeName: employeeName
+            AttributeType: S
+        KeySchema:
+          - AttributeName: employeeName
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+
 
 functions:
   login:
@@ -30,6 +42,10 @@ functions:
           path: login
           method: post
           cors: true
-
-  
-
+  EmployeeInfo:
+    handler: src/handlers/EmployeeInfo.handler
+    events:
+      - http:
+          path: EmployeeInfo
+          method: post
+          cors: true
