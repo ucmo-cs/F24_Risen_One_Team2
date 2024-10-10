@@ -23,7 +23,7 @@ export class TimeComponent {
   /* Sign In navigation Function */
   ngOnInit(){}
   signIn() {
-    this.router.navigate(['/login']);
+    this.router.navigate(['/home']);
     
   }
 }
