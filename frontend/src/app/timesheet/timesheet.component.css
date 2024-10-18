@@ -1,172 +1,200 @@
-
 html {
-    background-color: #FBC900;
+  background-color: #fbc900;
 }
 body {
-    padding-top: 50px;
-    padding-bottom: 50px;
-    background-color: #FBC900;
-    height: fit-content;
-    max-width: 100%;
-    overflow-x: hidden;
-  }
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: white;
-    margin-left: 10%;
-    margin-right: 10%;
-    border-radius: 50px;  
-  }
-.box-1{
-    text-align: left; 
-    display:flex; 
-    flex-direction: column; 
-    align-items: center;
-    width: 80%;
-    margin: 0 auto;
-    border: 2px solid grey;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  background-color: #fbc900;
+  height: fit-content;
+  max-width: 100%;
+  overflow-x: hidden;
 }
-.box-2{
-    width: 80%;
-    margin: 0 auto;
-    border: 2px solid grey;
-    border-top: 0px;
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  margin-left: 10%;
+  margin-right: 10%;
+  border-radius: 50px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.box-1 {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+  margin: 0 auto;
+  border: 2px solid grey;
+}
+.box-2 {
+  width: 80%;
+  margin: 0 auto;
+  border: 2px solid grey;
+  border-top: 0px;
 }
 .box-2-inside {
-    margin-left: 15px;
-    margin-top: 15px;
+  margin-left: 15px;
+  margin-top: 15px;
 }
 .box-3 {
-    width: 80%;
-    margin: 0 auto;
-    border: 2px solid grey;
-    border-top: 0px;
-    padding-bottom: 10px;
-    margin-bottom: 50px;
+  width: 80%;
+  margin: 0 auto;
+  border: 2px solid grey;
+  border-top: 0px;
+  padding-bottom: 10px;
+  margin-bottom: 50px;
+}
+.form-group {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  margin: 20px auto;
+}
+.form-group label {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.form-group select {
+  padding: 5px 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  width: 80%;
+  margin: 20px auto;
 }
 .certificateDropdown mat-form-field {
-    width: 30%;
+  width: 30%;
 }
 p {
-    text-align: left;
-    font-family: 'Montserrat';
-    margin-left: center;
+  text-align: left;
+  font-family: "Montserrat";
+  margin-left: center;
 }
 h1 {
-    font-weight: bold;
-    text-align: center;
-    font-size: 35px;
+  font-weight: bold;
+  text-align: center;
+  font-size: 35px;
+  margin-bottom: 20px;
 }
 .longTextAreaBox {
-    width: 910px;
-    padding-left: 63px;
-    padding-top: 30px;
+  width: 910px;
+  padding-left: 63px;
+  padding-top: 30px;
 }
 .shortTextAreaBox {
-    width: 400px; 
-    padding: 10px;
-    margin-right: 100px;
-    padding-left: 65px;
+  width: 400px;
+  padding: 10px;
+  margin-right: 100px;
+  padding-left: 65px;
 }
 .shortBasicInput {
-    width: 375px; 
-    padding: 10px;
-    margin-right: 125px;
-    padding-left: 65px;
+  width: 375px;
+  padding: 10px;
+  margin-right: 125px;
+  padding-left: 65px;
 }
 .shortBasicInput-cost {
-    width: 390px; 
-    padding: 10px;
+  width: 390px;
+  padding: 10px;
 }
-.employeeName{
-    margin-right: 15px;
-    width: 300px;
-    padding-left: 65px;
+.employeeName {
+  margin-right: 15px;
+  width: 300px;
+  padding-left: 65px;
 }
-.certName{
-    padding: 10px;
-    width: 385px;
+.certName {
+  padding: 10px;
+  width: 385px;
 }
 .datePicker {
-    width: 390px; 
-    padding: 10px;
+  width: 390px;
+  padding: 10px;
 }
-.datePickerSignatures{
-    width: 275px; 
-    padding: 30px;
-    margin-left: 15px;
+.datePickerSignatures {
+  width: 275px;
+  padding: 30px;
+  margin-left: 15px;
 }
 .selectorBox {
-    padding-left: 65px;
+  padding-left: 65px;
 }
 mat-form-field {
-    overflow: visible;
-    padding-right: 200px;
+  overflow: visible;
+  padding-right: 200px;
 }
 
 .button-addNew {
-    border: none;
-    color: #000;
-    background-color: #FBC900;
-    padding: 15px 32px;
-    font-size: 16px;
-    margin-left: 20%;
-    border-radius: 50px;
-  }
+  border: none;
+  color: #000;
+  background-color: #fbc900;
+  padding: 10px 20px;
+  font-size: 16px;
+  margin-left: 20%;
+  border-radius: 25px;
+  height: 40px;
+}
 
 .button-exportToPDF {
-    border: 2px solid #FBC900;
-    padding: 15px 32px;
-    font-size: 16px;
-    border-radius: 50px;
-    border-radius: 50px;
-    margin-left: 67%;    
+  border: 2px solid #fbc900;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 25px;
+  margin-left: 67%;
+  height: 40px;
 }
 .button-save {
-    padding: 15px 32px;
-    font-size: 16px;
-    border-radius: 50px;
-    margin-left: 1%;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 25px;
+  height: 40px;
+  margin-left: 1%;
+}
+.button-exportToPDF:hover,
+.button-save:hover {
+  background-color: #e5a800;
 }
 
 mat-checkbox {
-    text-align: left;
-    padding-left: 65px;
+  text-align: left;
+  padding-left: 65px;
 }
 text-area {
-    width: 50%;
+  width: 50%;
 }
-.spacer{
-    flex: 1 1 auto;
+.spacer {
+  flex: 1 1 auto;
 }
 .toolbar {
-    display: flex;
-    justify-content: space-between;
-    margin: 0;
-    background: black;
-    font-size: 30px;
-    height: 10%;
-    padding-right: 100px;
-    max-width: 100%;
-    overflow-x: hidden;
-  }
-  .menuIcon {
-    font-size: 50px;
-    padding-bottom: 30px;
-    padding-right: 25px;
-
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  background: black;
+  font-size: 30px;
+  height: 10%;
+  padding-right: 100px;
+  max-width: 100%;
+  overflow-x: hidden;
 }
-.accountIcon{
-    font-size: 70px;
-    padding-bottom: 40px;
-    padding-right: 100px;
-
-
+.menuIcon {
+  font-size: 50px;
+  padding-bottom: 30px;
+  padding-right: 25px;
 }
-  
-  span {
-    background: black;
-    color: white;
-  }
+.accountIcon {
+  font-size: 70px;
+  padding-bottom: 40px;
+  padding-right: 100px;
+}
+
+span {
+  background: black;
+  color: white;
+}

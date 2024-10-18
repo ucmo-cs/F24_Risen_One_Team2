@@ -1,10 +1,74 @@
 <!DOCTYPE html>
 <html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Risen One Consulting - Timesheet</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Monthly Time Sheet</h1>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width-device-width, inital-scale=1.0">
-    <title>Risen One Consulting</title>
-</head>
-    <head></head><body><h1> This is the timesheet page! </h1>
-</body></html>
+      <div class="form-group">
+        <div class="box-1">
+          <label for="project">Project Name:</label>
+          <select id="project" [(ngModel)]="selectedProject">
+            <option *ngFor="let project of projects" [value]="project">
+              {{ project }}
+            </option>
+          </select>
+        </div>
+
+        <div class="box-1">
+          <label for="month">Select Month:</label>
+          <select id="month" [(ngModel)]="selectedMonth">
+            <option *ngFor="let month of months" [value]="month">
+              {{ month }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="buttons">
+        <button (click)="exportToPDF()" class="button-exportToPDF">
+          Export to PDF
+        </button>
+        <button (click)="editTimesheet()" class="button-save">Edit</button>
+        <button (click)="saveTimesheet()" class="button-save">Save</button>
+      </div>
+
+      <div class="box-2">
+        <h2>{{ selectedMonth }} {{ selectedYear }}</h2>
+        <table class="timesheet-table">
+          <thead>
+            <tr>
+              <th>Employees</th>
+              <th *ngFor="let day of days">{{ day }}</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let employee of employees">
+              <td>{{ employee.name }}</td>
+              <td *ngFor="let day of days">
+                <input
+                  type="number"
+                  [(ngModel)]="employee.hours[day]"
+                  class="hours-input"
+                />
+              </td>
+              <td class="total-column">
+                {{ calculateTotalHours(employee.hours) }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="signature">
+        <div>Manager Signature</div>
+        <div>Date</div>
+      </div>
+    </div>
+  </body>
+</html>
