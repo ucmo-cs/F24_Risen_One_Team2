@@ -23,18 +23,18 @@ export class TimeComponent {
     { value: 'Alpha Co', viewValue: 'Alpha Co' },
   ];
   months: previousRequest[] = [
-    { value: 'January 2024', viewValue: 'January 2024' },
-    { value: 'February 2024', viewValue: 'February 2024' },
-    { value: 'March 2024', viewValue: 'March 2024' },
-    { value: 'April 2024', viewValue: 'April 2024' },
-    { value: 'May 2024', viewValue: 'May 2024' },
-    { value: 'June 2024', viewValue: 'June 2024' },
-    { value: 'July 2024', viewValue: 'July 2024' },
-    { value: 'August 2024', viewValue: 'August 2024' },
-    { value: 'September 2024', viewValue: 'September 2024' },
-    { value: 'October 2024', viewValue: 'October 2024' },
-    { value: 'November 2024', viewValue: 'November 2024' },
-    { value: 'December 2024', viewValue: 'December 2024' },
+    { value: 'January ', viewValue: 'January ' },
+    { value: 'February ', viewValue: 'February ' },
+    { value: 'March ', viewValue: 'March ' },
+    { value: 'April ', viewValue: 'April ' },
+    { value: 'May ', viewValue: 'May ' },
+    { value: 'June ', viewValue: 'June ' },
+    { value: 'July ', viewValue: 'July ' },
+    { value: 'August ', viewValue: 'August ' },
+    { value: 'September ', viewValue: 'September ' },
+    { value: 'October ', viewValue: 'October ' },
+    { value: 'November ', viewValue: 'November ' },
+    { value: 'December ', viewValue: 'December ' },
   ];
   days: number[] = Array.from({ length: 31 }, (_, i) => i + 1);
   employees: { name: string; hours: { [key: string]: number } }[] = [

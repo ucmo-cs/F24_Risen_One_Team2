@@ -1,9 +1,10 @@
+
 html {
   background-color: #fbc900;
 }
 body {
-  padding-top: 50px;
-  padding-bottom: 50px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   background-color: #fbc900;
   height: fit-content;
   max-width: 100%;
@@ -14,10 +15,13 @@ body {
   flex-direction: column;
   align-items: center;
   background-color: white;
-  margin-left: 10%;
-  margin-right: 10%;
-  border-radius: 50px;
-  padding: 20px;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 20px;
+  border-radius: 5px;
+  padding: 5px;
+  height: 90%;
+  width: 90%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 .box-1 {
@@ -30,17 +34,18 @@ body {
   border: 2px solid grey;
 }
 .box-2 {
-  width: 80%;
+  width: 100%;
+  max-width: 1500px; 
   margin: 0 auto;
   border: 2px solid grey;
-  border-top: 0px;
+  overflow-x: auto; 
 }
 .box-2-inside {
-  margin-left: 15px;
-  margin-top: 15px;
+  margin-left: 5px;
+  margin-top: 5px;
 }
 .box-3 {
-  width: 80%;
+  width: 100%;
   margin: 0 auto;
   border: 2px solid grey;
   border-top: 0px;
@@ -147,8 +152,9 @@ mat-form-field {
   padding: 10px 20px;
   font-size: 16px;
   border-radius: 25px;
-  margin-left: 67%;
+  margin-left: 62%;
   height: 40px;
+  width: 500px;
 }
 .button-save {
   padding: 10px 20px;
@@ -197,4 +203,27 @@ text-area {
 span {
   background: black;
   color: white;
+}
+
+table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+/* th, td {
+  padding: 5px;
+  padding-left:10px;
+  text-align: center;
+  
+} */
+table th:first-child,
+table td:first-child {
+  width: 100px;
+  min-width: 100px;
+}
+
+table th:not(:first-child),
+table td:not(:first-child) {
+  width: calc((100% - 100px) / 31);
 }
