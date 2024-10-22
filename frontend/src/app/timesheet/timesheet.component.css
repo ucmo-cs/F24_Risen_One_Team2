@@ -41,8 +41,7 @@ body {
   overflow-x: auto; 
 }
 .box-2-inside {
-  margin-left: 5px;
-  margin-top: 5px;
+  margin: 2px solid black;
 }
 .box-3 {
   width: 100%;
@@ -208,22 +207,26 @@ span {
 table {
   width: 100%;
   table-layout: fixed;
-  border-collapse: collapse;
+  text-align: center;
 }
 
-/* th, td {
-  padding: 5px;
-  padding-left:10px;
-  text-align: center;
-  
-} */
+
 table th:first-child,
 table td:first-child {
   width: 100px;
   min-width: 100px;
+  border: 1px solid black;
 }
 
-table th:not(:first-child),
-table td:not(:first-child) {
+table th:not(:first-child,:last-child),
+table td:not(:first-child,:last-child) {
   width: calc((100% - 100px) / 31);
+  border: 1px solid black;
+  text-align: center;
+}
+table th:last-child, 
+table td:last-child {
+  width: 50px;
+  border: 1px solid black;
+  text-align: center;
 }
