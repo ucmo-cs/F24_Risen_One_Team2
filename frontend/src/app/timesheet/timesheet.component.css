@@ -154,6 +154,7 @@ mat-form-field {
   margin-left: 62%;
   height: 40px;
   width: 500px;
+  display:fixed;
 }
 .button-save {
   padding: 10px 20px;
@@ -229,4 +230,8 @@ table td:last-child {
   width: 50px;
   border: 1px solid black;
   text-align: center;
+}
+.dates {
+  background-color: #000;
+  color: white;
 }

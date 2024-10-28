@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { provideNativeDateAdapter } from '@angular/material/core';
+import { jsPDF } from 'jspdf';
+
 
 interface previousRequest {
   value: string;
@@ -17,6 +19,7 @@ export class TimeComponent {
   selectedProject: string = '';
   selectedMonth: string = '';
   selectedYear: number = new Date().getFullYear();
+  isEditing: boolean = false; // boolean for table editing
   projects: previousRequest[] = [
     { value: 'BAER', viewValue: 'BAER' },
     { value: 'XYZ Corp', viewValue: 'XYZ Corp' },
@@ -63,9 +66,31 @@ export class TimeComponent {
     return Object.values(hours).reduce((total, current) => total + current, 0);
   }
 
-  exportToPDF() {
-    console.log('Exporting to PDF...');
+  exportToPDF(): void {
+    const doc = new jsPDF();
+  
+    // Get the box-2 content
+    const element = document.querySelector('.container') as HTMLElement;
+  
+    if (element) {
+      // Add the content to the PDF
+      doc.html(element, {
+        callback: (doc) => {
+          // Save the PDF
+          doc.save('timesheet.pdf');
+        },
+        x: .05, // Horizontal position
+        y: 20, // Vertical position
+        width: 125, // Width of content in PDF (adjust as necessary)
+        html2canvas: {
+          scale: 0.18 // This scales down the content (1 is default, <1 zooms out)
+        }
+      });
+    } else {
+      console.error('Element with class not found.');
+    }
   }
+  
 
   editTimesheet() {
     console.log('Editing timesheet...');
@@ -74,4 +99,5 @@ export class TimeComponent {
   saveTimesheet() {
     console.log('Saving timesheet...');
   }
+
 }
