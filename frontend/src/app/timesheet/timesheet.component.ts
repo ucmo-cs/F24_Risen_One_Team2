@@ -93,7 +93,8 @@ export class TimeComponent {
   
 
   editTimesheet() {
-    console.log('Editing timesheet...');
+    this.isEditing = !this.isEditing;
+    console.log(this.isEditing ? 'Editing timesheet...' : 'Viewing timesheet...');
   }
 
   saveTimesheet() {

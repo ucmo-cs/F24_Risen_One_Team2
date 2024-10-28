@@ -34,14 +34,15 @@ body {
   border: 2px solid grey;
 }
 .box-2 {
-  width: 100%;
-  max-width: 1500px; 
+  height: 400px auto;
+  width: auto;
   margin: 0 auto;
   border: 2px solid grey;
   overflow-x: auto; 
 }
 .box-2-inside {
   margin: 2px solid black;
+  width: auto;
 }
 .box-3 {
   width: 100%;
@@ -147,13 +148,13 @@ mat-form-field {
 }
 
 .button-exportToPDF {
-  border: 2px solid #fbc900;
+  border: 2px solid black;
   padding: 10px 20px;
   font-size: 16px;
   border-radius: 25px;
   margin-left: 62%;
   height: 40px;
-  width: 500px;
+  width: auto;
   display:fixed;
 }
 .button-save {
@@ -211,7 +212,6 @@ table {
   text-align: center;
 }
 
-
 table th:first-child,
 table td:first-child {
   width: 100px;
@@ -234,4 +234,7 @@ table td:last-child {
 .dates {
   background-color: #000;
   color: white;
+}
+.button-edit-active {
+  background-color: #e5a800;
 }
