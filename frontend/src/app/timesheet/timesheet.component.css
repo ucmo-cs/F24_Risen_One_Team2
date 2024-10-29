@@ -107,7 +107,7 @@ h1 {
   padding-left: 65px;
 }
 .shortBasicInput-cost {
-  width: 390px;
+  width: 75px;
   padding: 10px;
 }
 .employeeName {
@@ -228,7 +228,7 @@ table td:last-child {
   text-align: center;
 }
 .total-column {
-  background-color: #e5a800;
+  border: 1px black solid;
 } 
 
 .dates {
