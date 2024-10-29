@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { jsPDF } from 'jspdf'; // import jsPDF to be able to export the page to pdf
 
-
 interface previousRequest {
   value: string;
   viewValue: string;
@@ -21,7 +20,7 @@ export class TimeComponent {
   //selectedYear: number = new Date().getFullYear();
   isEditing: boolean = false; // boolean for table editing
   num_days: number = 28; // number to defirmine the width of the table
-  
+
   // Array to store the projects in the dropdown
   projects: previousRequest[] = [
     { value: 'BAER', viewValue: 'BAER' },
@@ -30,8 +29,8 @@ export class TimeComponent {
   ];
   // Array to store the months displayed in the dropdown
   months: previousRequest[] = [
-    { value: 'January ', viewValue: 'January '},
-    { value: 'February ', viewValue: 'February '},
+    { value: 'January ', viewValue: 'January ' },
+    { value: 'February ', viewValue: 'February ' },
     { value: 'March ', viewValue: 'March ' },
     { value: 'April ', viewValue: 'April ' },
     { value: 'May ', viewValue: 'May ' },
@@ -51,7 +50,7 @@ export class TimeComponent {
     { name: 'John Doe', hours: this.initializeHours() },
     { name: 'Michael Smith', hours: this.initializeHours() },
     { name: 'Jon Doe', hours: this.initializeHours() },
-    { name: 'Steve Smith', hours: this.initializeHours() }
+    { name: 'Steve Smith', hours: this.initializeHours() },
   ];
 
   constructor(private router: Router) {}
@@ -83,32 +82,34 @@ export class TimeComponent {
   // Exports box-2 to pdf using jsPDF
   exportToPDF(): void {
     const doc = new jsPDF();
-  
+
     // Get the box-2 content
     const element = document.querySelector('.container') as HTMLElement;
-  
+
     if (element) {
       doc.html(element, {
         callback: (doc) => {
           // Save the PDF to specified address
           doc.save('timesheet.pdf');
         },
-        x: .05, // Horizontal position
+        x: 0.05, // Horizontal position
         y: 20, // Vertical position
         width: 150, // Width of content in PDF (adjust as necessary)
         html2canvas: {
-          scale: 0.18 // This scales down the content (1 is default, <1 zooms out)
-        }
+          scale: 0.18, // This scales down the content (1 is default, <1 zooms out)
+        },
       });
     } else {
       console.error('Element with class not found.');
     }
   }
-  
+
   // When the edit button is pressed editing will be allowed
   editTimesheet() {
     this.isEditing = !this.isEditing;
-    console.log(this.isEditing ? 'Editing timesheet...' : 'Viewing timesheet...');
+    console.log(
+      this.isEditing ? 'Editing timesheet...' : 'Viewing timesheet...'
+    );
   }
 
   // Save button that will save the table information to a database
@@ -117,10 +118,12 @@ export class TimeComponent {
   }
   // Gets the days in the month
   getDaysInMonth(month: string, year: number): number {
-    const monthIndex = this.months.findIndex(m => m.value.trim() === month.trim());
+    const monthIndex = this.months.findIndex(
+      (m) => m.value.trim() === month.trim()
+    );
     return new Date(year, monthIndex + 1, 0).getDate();
   }
-  // Gets the selected month 
+  // Gets the selected month
   private _selectedMonth: string = '';
   get selectedMonth(): string {
     return this._selectedMonth;
@@ -133,16 +136,19 @@ export class TimeComponent {
   // Function to update the days
   updateDays() {
     if (this.selectedMonth && this.selectedYear) {
-      const daysInMonth = this.getDaysInMonth(this.selectedMonth, this.selectedYear);
+      const daysInMonth = this.getDaysInMonth(
+        this.selectedMonth,
+        this.selectedYear
+      );
       this.days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
       this.num_days = daysInMonth;
       this.resetEmployeeHours();
     }
   }
-  
+
   // Resets the employees hours when a new month is selected
   resetEmployeeHours() {
-    this.employees.forEach(employee => {
+    this.employees.forEach((employee) => {
       employee.hours = this.initializeHours();
     });
   }
@@ -156,5 +162,4 @@ export class TimeComponent {
     this._selectedYear = value;
     this.updateDays();
   }
-  
 }
