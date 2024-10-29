@@ -135,7 +135,9 @@ mat-form-field {
   overflow: visible;
   padding-right: 200px;
 }
-
+table .mat-column-total {
+  border: 1px solid black;
+}
 .button-addNew {
   border: none;
   color: #000;
@@ -153,7 +155,7 @@ mat-form-field {
   font-size: 16px;
   border-radius: 25px;
   margin-left: 62%;
-  height: 40px;
+  height: auto;
   width: auto;
   display:fixed;
 }
@@ -210,31 +212,30 @@ table {
   width: 100%;
   table-layout: fixed;
   text-align: center;
+  border: 2px black;
 }
 
 table th:first-child,
 table td:first-child {
   width: 100px;
   min-width: 100px;
-  border: 1px solid black;
+  
 }
 
-table th:not(:first-child,:last-child),
-table td:not(:first-child,:last-child) {
-  width: calc((100% - 100px) / 31);
-  border: 1px solid black;
-  text-align: center;
-}
 table th:last-child, 
 table td:last-child {
   width: 50px;
-  border: 1px solid black;
   text-align: center;
 }
+.total-column {
+  background-color: #e5a800;
+} 
+
 .dates {
   background-color: #000;
   color: white;
 }
+
 .button-edit-active {
   background-color: #e5a800;
 }

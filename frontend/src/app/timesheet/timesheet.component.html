@@ -44,7 +44,7 @@
               <tr class="dates">
                 <th>Employees</th>
                 <th *ngFor="let day of days">{{ day }}</th>
-                <th>Total</th>
+                <th class="total-column">Total</th>
               </tr>
             </thead>
             <tbody>
@@ -53,7 +53,7 @@
                 <td *ngFor="let day of days">
                   <input type="number" [(ngModel)]="employee.hours[day]" class="shortBasicInput-cost"[disabled]="!isEditing">
                 </td>
-                <td>{{ calculateTotalHours(employee.hours) }}</td>
+                <td class="total-column">{{ calculateTotalHours(employee.hours) }}</td>
               </tr>
             </tbody>
           </table>
