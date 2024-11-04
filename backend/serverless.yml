@@ -26,10 +26,10 @@ resources:
       Properties:
         TableName: TimeCard
         AttributeDefinitions:
-          - AttributeName: employeeID
+          - AttributeName: employeeName
             AttributeType: S
         KeySchema:
-          - AttributeName: employeeID
+          - AttributeName: employeeName
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
 
@@ -47,6 +47,13 @@ functions:
       - http:
           path: timeCard
           method: post
+          cors: true
+  getEmployeeData:
+    handler: src/handlers/getEmployeeData.handler
+    events:
+      - http:
+          path: getEmployeeData
+          method: get
           cors: true
 
   
