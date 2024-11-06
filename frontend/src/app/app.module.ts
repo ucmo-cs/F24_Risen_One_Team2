@@ -1,3 +1,4 @@
+
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { AppHeaderComponent } from './components/app-header/app-header.component';
@@ -59,6 +60,7 @@ import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app.routes';
 import { LoginComponent } from './login/login.component';
 import { TimeComponent } from './timesheet/timesheet.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
