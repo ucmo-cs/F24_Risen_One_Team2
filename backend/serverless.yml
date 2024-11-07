@@ -21,6 +21,17 @@ resources:
           - AttributeName: username
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
+    TimeCard:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: TimeCard
+        AttributeDefinitions:
+          - AttributeName: employeeName
+            AttributeType: S
+        KeySchema:
+          - AttributeName: employeeName
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
 
 functions:
   login:
@@ -29,6 +40,20 @@ functions:
       - http:
           path: login
           method: post
+          cors: true
+  timeCard:
+    handler: src/handlers/timeCard.handler
+    events:
+      - http:
+          path: timeCard
+          method: post
+          cors: true
+  getEmployeeData:
+    handler: src/handlers/getEmployeeData.handler
+    events:
+      - http:
+          path: getEmployeeData
+          method: get
           cors: true
 
   
