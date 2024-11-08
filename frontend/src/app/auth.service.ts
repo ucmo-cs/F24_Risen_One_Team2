@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 })
 
 export class AuthService {
-  baseURL: string = "https://4brx9prx1h.execute-api.us-east-1.amazonaws.com/dev/";
+  baseURL: string = "https://7skgw1mjg7.execute-api.us-east-1.amazonaws.com/testLogin/login";
  
   constructor(private http: HttpClient,private router: Router) { }
 
