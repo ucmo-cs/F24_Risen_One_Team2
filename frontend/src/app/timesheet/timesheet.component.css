@@ -160,6 +160,10 @@ table .mat-column-total {
   width: auto;
   display: fixed;
 }
+.button-exportToPDF:hover {
+  background-color: #e5a800;
+  color: white;
+}
 .button-save {
   padding: 10px 20px;
   border: 2px solid #e5a800;
