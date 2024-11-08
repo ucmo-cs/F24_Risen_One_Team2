@@ -174,9 +174,9 @@ table .mat-column-total {
   height: 40px;
   margin-left: 1%;
 }
-.button-exportToPDF:hover,
 .button-save:hover {
-  background-color: #e5a800;
+  background-color: white;
+  color: #e5a800;
 }
 
 mat-checkbox {
