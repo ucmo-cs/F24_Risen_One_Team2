@@ -78,6 +78,19 @@ export class TimeComponent {
   calculateTotalHours(hours: { [key: string]: number }): number {
     return Object.values(hours).reduce((total, current) => total + current, 0);
   }
+  // New function to calculate total hours per day across all employees
+  calculateTotalHoursPerDay(day: number): number {
+    return this.employees.reduce(
+      (total, employee) => total + (employee.hours[day] || 0),
+      0
+    );
+  }
+  calculateGrandTotalHours(): number {
+    return this.days.reduce(
+      (total, day) => total + this.calculateTotalHoursPerDay(day),
+      0
+    );
+  }
 
   // Exports box-2 to pdf using jsPDF
   exportToPDF(): void {
