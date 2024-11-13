@@ -1,4 +1,3 @@
-
 html {
   background-color: #fbc900;
 }
@@ -18,7 +17,7 @@ body {
   margin-left: 5%;
   margin-right: 5%;
   margin-top: 20px;
-  border-radius: 5px;
+  border-radius: 25px;
   padding: 5px;
   height: 90%;
   width: 90%;
@@ -38,7 +37,7 @@ body {
   width: auto;
   margin: 0 auto;
   border: 2px solid grey;
-  overflow-x: auto; 
+  overflow-x: auto;
 }
 .box-2-inside {
   margin: 2px solid black;
@@ -150,25 +149,34 @@ table .mat-column-total {
 }
 
 .button-exportToPDF {
-  border: 2px solid black;
+  border: 2px solid #e5a800;
+  background-color: white;
+  color: #e5a800;
   padding: 10px 20px;
   font-size: 16px;
   border-radius: 25px;
   margin-left: 62%;
   height: auto;
   width: auto;
-  display:fixed;
+  display: fixed;
+}
+.button-exportToPDF:hover {
+  background-color: #e5a800;
+  color: white;
 }
 .button-save {
   padding: 10px 20px;
+  border: 2px solid #e5a800;
+  background-color: #e5a800;
+  color: white;
   font-size: 16px;
   border-radius: 25px;
   height: 40px;
   margin-left: 1%;
 }
-.button-exportToPDF:hover,
 .button-save:hover {
-  background-color: #e5a800;
+  background-color: white;
+  color: #e5a800;
 }
 
 mat-checkbox {
@@ -219,17 +227,16 @@ table th:first-child,
 table td:first-child {
   width: 100px;
   min-width: 100px;
-  
 }
 
-table th:last-child, 
+table th:last-child,
 table td:last-child {
   width: 50px;
   text-align: center;
 }
 .total-column {
   border: 1px black solid;
-} 
+}
 
 .dates {
   background-color: #000;
