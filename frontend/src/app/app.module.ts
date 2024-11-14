@@ -6,10 +6,7 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
 
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
-import {
-  provideHttpClient,
-  withInterceptorsFromDi,
-} from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { LayoutModule } from '@angular/cdk/layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // Material Form Controls
@@ -53,12 +50,13 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-import { provideNativeDateAdapter } from '@angular/material/core';
+import {provideNativeDateAdapter} from '@angular/material/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app.routes';
 import { LoginComponent } from './login/login.component';
-import { TimeComponent } from './timesheet/timesheet.component';
+import { TimeComponent} from './timesheet/timesheet.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -68,12 +66,13 @@ import { TimeComponent } from './timesheet/timesheet.component';
     SidenavComponent,
     LoginComponent,
     AppComponent,
-    TimeComponent,
+    TimeComponent
   ],
   exports: [],
   bootstrap: [AppComponent],
   imports: [
     BrowserModule,
+    HttpClientModule,
     LayoutModule,
     FormsModule,
     ReactiveFormsModule,
@@ -118,6 +117,9 @@ import { TimeComponent } from './timesheet/timesheet.component';
     ReactiveFormsModule,
     AppRoutingModule,
   ],
-  providers: [MatSnackBar, provideHttpClient(withInterceptorsFromDi())],
+  providers: [
+    MatSnackBar,
+    provideHttpClient(withInterceptorsFromDi()),
+  ]
 })
 export class AppModule {}
