@@ -236,6 +236,12 @@ table td:last-child {
 }
 .total-column {
   border: 1px black solid;
+  text-align: right;
+  padding-right: 10px;
+}
+.total-column:last-child {
+  text-align: right;
+  padding-right: 10px;
 }
 
 .dates {
