@@ -34,10 +34,11 @@ body {
 }
 .box-2 {
   height: 400px auto;
-  width: auto;
+  width: 100%;
   margin: 0 auto;
   border: 2px solid grey;
   overflow-x: auto;
+  table-layout: fixed;
 }
 .box-2-inside {
   margin: 2px solid black;
