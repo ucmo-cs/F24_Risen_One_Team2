@@ -16,10 +16,8 @@ interface previousRequest {
 })
 export class TimeComponent {
   selectedProject: string = '';
-  //selectedMonth: string = '';
-  //selectedYear: number = new Date().getFullYear();
   isEditing: boolean = false; // boolean for table editing
-  num_days: number = 28; // number to defirmine the width of the table
+  num_days: number = 28; // determines the width of the table
 
   // Array to store the projects in the dropdown
   projects: previousRequest[] = [
@@ -27,6 +25,7 @@ export class TimeComponent {
     { value: 'XYZ Corp', viewValue: 'XYZ Corp' },
     { value: 'Alpha Co', viewValue: 'Alpha Co' },
   ];
+
   // Array to store the months displayed in the dropdown
   months: previousRequest[] = [
     { value: 'January ', viewValue: 'January ' },
@@ -42,8 +41,10 @@ export class TimeComponent {
     { value: 'November ', viewValue: 'November ' },
     { value: 'December ', viewValue: 'December ' },
   ];
-  // Determins the number of days in the table
+
+  // Determines the number of days in the table
   days: number[] = Array.from({ length: this.num_days }, (_, i) => i + 1);
+
   // Array to store the employees
   employees: { name: string; hours: { [key: string]: number } }[] = [
     { name: 'Jane Doe', hours: this.initializeHours() },
@@ -58,10 +59,7 @@ export class TimeComponent {
   ngOnInit() {}
 
   signIn() {
-    //
-    // Currently just allows access to the page with no sign in required
-    // Could be a stretch goal
-    //
+    // Placeholder for sign-in navigation
     this.router.navigate(['/home']);
   }
 
@@ -74,29 +72,41 @@ export class TimeComponent {
     return hours;
   }
 
-  // Calculates all the total hours displayed in the total column
+  // Calculates the total hours displayed in the total column
   calculateTotalHours(hours: { [key: string]: number }): number {
     return Object.values(hours).reduce((total, current) => total + current, 0);
+  }
+
+  // Calculates total hours per day across all employees
+  calculateTotalHoursPerDay(day: number): number {
+    return this.employees.reduce(
+      (total, employee) => total + (employee.hours[day] || 0),
+      0
+    );
+  }
+
+  calculateGrandTotalHours(): number {
+    return this.days.reduce(
+      (total, day) => total + this.calculateTotalHoursPerDay(day),
+      0
+    );
   }
 
   // Exports box-2 to pdf using jsPDF
   exportToPDF(): void {
     const doc = new jsPDF();
-
-    // Get the box-2 content
     const element = document.querySelector('.container') as HTMLElement;
 
     if (element) {
       doc.html(element, {
         callback: (doc) => {
-          // Save the PDF to specified address
           doc.save('timesheet.pdf');
         },
-        x: 0.05, // Horizontal position
-        y: 20, // Vertical position
-        width: 150, // Width of content in PDF (adjust as necessary)
+        x: 0.05,
+        y: 20,
+        width: 150,
         html2canvas: {
-          scale: 0.18, // This scales down the content (1 is default, <1 zooms out)
+          scale: 0.18,
         },
       });
     } else {
@@ -104,7 +114,7 @@ export class TimeComponent {
     }
   }
 
-  // When the edit button is pressed editing will be allowed
+  // Toggles between editing and viewing modes
   editTimesheet() {
     this.isEditing = !this.isEditing;
     console.log(
@@ -112,28 +122,40 @@ export class TimeComponent {
     );
   }
 
-  // Save button that will save the table information to a database
+  // Save function that logs saving action (placeholder for actual save logic)
   saveTimesheet() {
     console.log('Saving timesheet...');
   }
-  // Gets the days in the month
+
+  // Determines the number of days in a given month and year
   getDaysInMonth(month: string, year: number): number {
     const monthIndex = this.months.findIndex(
       (m) => m.value.trim() === month.trim()
     );
     return new Date(year, monthIndex + 1, 0).getDate();
   }
-  // Gets the selected month
+
+  // Private property and getter/setter for selectedMonth
   private _selectedMonth: string = '';
   get selectedMonth(): string {
     return this._selectedMonth;
   }
-  // Updates the days based off the month
   set selectedMonth(value: string) {
     this._selectedMonth = value;
     this.updateDays();
   }
-  // Function to update the days
+
+  // Private property and getter/setter for selectedYear
+  private _selectedYear: number = new Date().getFullYear();
+  get selectedYear(): number {
+    return this._selectedYear;
+  }
+  set selectedYear(value: number) {
+    this._selectedYear = value;
+    this.updateDays();
+  }
+
+  // Updates days array and resets employee hours when month or year changes
   updateDays() {
     if (this.selectedMonth && this.selectedYear) {
       const daysInMonth = this.getDaysInMonth(
@@ -146,20 +168,10 @@ export class TimeComponent {
     }
   }
 
-  // Resets the employees hours when a new month is selected
+  // Resets the hours for each employee to ensure clean data for new month/year
   resetEmployeeHours() {
     this.employees.forEach((employee) => {
       employee.hours = this.initializeHours();
     });
-  }
-  // Gets the selected year
-  private _selectedYear: number = new Date().getFullYear();
-  get selectedYear(): number {
-    return this._selectedYear;
-  }
-  // Sets the selected year
-  set selectedYear(value: number) {
-    this._selectedYear = value;
-    this.updateDays();
   }
 }

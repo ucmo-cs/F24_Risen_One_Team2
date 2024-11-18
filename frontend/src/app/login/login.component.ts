@@ -82,7 +82,11 @@ export class LoginComponent {
             this.router.navigate(['/home']);
           } else {
             // Handle login failure
+<<<<<<< HEAD
             this.openSnackBar('Login failed. Please try again.', 'Close'); // displays pop up
+=======
+            this.openSnackBar('Login failed. Please try again.', 'Close'); // displays pop up 
+>>>>>>> branchD
             console.error('Login failed');
           }
         },
@@ -96,7 +100,14 @@ export class LoginComponent {
 
   private openSnackBar(message: string, action: string) { // this displays the error message that pops up when invalid username/password
     this.snackBar.open(message, action, {
+<<<<<<< HEAD
       duration: 3000,
     });
   }
 }
+=======
+      duration: 1000,
+    });
+  }
+}
+>>>>>>> branchD

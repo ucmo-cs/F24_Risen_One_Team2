@@ -1,3 +1,4 @@
+
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { AppHeaderComponent } from './components/app-header/app-header.component';
@@ -55,7 +56,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app.routes';
 import { LoginComponent } from './login/login.component';
+<<<<<<< HEAD
 import { TimeComponent} from './timesheet/timesheet.component';
+=======
+import { TimeComponent } from './timesheet/timesheet.component';
+>>>>>>> branchD
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
