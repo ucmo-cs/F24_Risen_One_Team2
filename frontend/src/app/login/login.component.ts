@@ -100,9 +100,4 @@ export class LoginComponent {
     });
   }
 }
-=======
-      duration: 1000,
-    });
-  }
-}
->>>>>>> branchD
+

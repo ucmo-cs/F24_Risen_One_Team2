@@ -31,6 +31,15 @@
               </option>
             </select>
           </div>
+          <!-- New Year Dropdown -->
+          <div>
+            <label for="year">Select Year:</label>
+            <select id="year" class="selectorBox" [(ngModel)]="selectedYear">
+              <option *ngFor="let year of years" [value]="year">
+                {{ year }}
+              </option>
+            </select>
+          </div>
         </div>
       </div>
 

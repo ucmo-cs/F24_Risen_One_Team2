@@ -54,9 +54,22 @@ export class TimeComponent {
     { name: 'Steve Smith', hours: this.initializeHours() },
   ];
 
+  years: number[] = this.generateYearOptions();
+
   constructor(private router: Router) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    const currentDate = new Date();
+    this.selectedMonth = this.months[currentDate.getMonth()].value;
+    this.selectedYear = currentDate.getFullYear();
+    this.updateDays();
+  }
+
+  generateYearOptions(): number[] {
+    const currentYear = new Date().getFullYear();
+    return Array.from({ length: 6 }, (_, index) => currentYear - index).reverse();
+  }
+
 
   signIn() {
     // Placeholder for sign-in navigation
@@ -173,5 +186,10 @@ export class TimeComponent {
     this.employees.forEach((employee) => {
       employee.hours = this.initializeHours();
     });
+  }
+
+  getFormattedMonthYear(): string {
+    const monthIndex = this.months.findIndex(m => m.value === this.selectedMonth);
+    return `${(monthIndex + 1).toString().padStart(2, '0')}/${this.selectedYear.toString().slice(-2)}`;
   }
 }
