@@ -33,7 +33,7 @@ body {
   border: 2px solid grey;
 }
 .box-2 {
-  height: 400px auto;
+  height: 400px;
   width: 100%;
   margin: 0 auto;
   border: 2px solid grey;
@@ -45,12 +45,40 @@ body {
   width: auto;
 }
 .box-3 {
-  width: 100%;
-  margin: 0 auto;
-  border: 2px solid grey;
-  border-top: 0px;
-  padding-bottom: 10px;
-  margin-bottom: 50px;
+  display: flex; /* Enables horizontal alignment */
+  justify-content: space-between; /* Spreads signature and date sections evenly */
+  align-items: center; /* Aligns items vertically */
+  width: 80%; /* Makes it narrower for better focus, centered using margin */
+  margin: 20px auto; /* Centers the div horizontally and adds spacing above/below */
+  border: 2px solid grey; /* Retain the border */
+  border-top: none; /* Alternate syntax for `border-top: 0px` */
+  padding: 20px 10px; /* Adds padding for spacing */
+  background-color: #f9f9f9; /* Optional: Adds a light background for separation */
+  border-radius: 5px; /* Optional: Rounds corners for a softer appearance */
+}
+.signature-date-input {
+  width: 200px;
+  border: 4px;
+  border-radius: 10px;
+  border-bottom: 1px solid black;
+  text-align: center;
+  font-size: 14px;
+  padding: 8px;
+  margin-top: 5px;
+  border-color: #000;
+}
+.signature-date-input:focus {
+  outline: 2px solid #e5a800;
+}
+.signature-date-label {
+  text-align: center;
+  font-size: 12px;
+  color: #333; /* Dark gray for a subtle label color */
+  margin-top: 5px;
+  border-radius: 10px;
+  border-color: #000;
+  padding: 8px;
+  border: 4px;
 }
 .form-group {
   display: flex;
@@ -159,7 +187,7 @@ table .mat-column-total {
   margin-left: 62%;
   height: auto;
   width: auto;
-  display: fixed;
+  position: auto;
 }
 .button-exportToPDF:hover {
   background-color: #e5a800;

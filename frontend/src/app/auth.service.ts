@@ -1,64 +1,41 @@
-
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class AuthService {
-<<<<<<< HEAD
-  baseURL: string = "https://7skgw1mjg7.execute-api.us-east-1.amazonaws.com/testLogin/";
+  baseURL: string =
+    'https://7skgw1mjg7.execute-api.us-east-1.amazonaws.com/testLogin/';
 
-  constructor(private http: HttpClient,private router: Router) { }
+  constructor(private http: HttpClient, private router: Router) {}
 
   login(username: string, password: string): Observable<boolean> {
     const user = JSON.stringify({ username, password });
 
-    return this.http.post<{message : string}>(this.baseURL + 'login', user).pipe(
-      map(response => {
-        console.log("Response:", response.message);
-        if (response.message === 'Login successful') { // checks message sent from lamba against requirment
-          return true;
-        } else {
-          return false;
-        }
-      }),
-      catchError(error => {  // catches error thrown from above
-        console.error('Login error:', error);  // testing statement
-        return new Observable<boolean>(observer => {
-          observer.next(false); // sets to false
-          observer.complete();
-        });
-      })
-=======
-  baseURL: string = "https://7skgw1mjg7.execute-api.us-east-1.amazonaws.com/testLogin/login";
- 
-  constructor(private http: HttpClient,private router: Router) { }
-
-  login(username: string, password: string): Observable<boolean> { 
-    const user = JSON.stringify({ username, password });
-
-    return this.http.post<{message : string}>(this.baseURL + 'login', user).pipe(
-        map(response => {
-            console.log("Response:", response.message);
-            if (response.message === 'Login successful' ) { // checks message sent from lamba against requirment
-                return true;
-            } else {
-                return false; 
-            }
+    return this.http
+      .post<{ message: string }>(this.baseURL + 'login', user)
+      .pipe(
+        map((response) => {
+          console.log('Response:', response.message);
+          if (response.message === 'Login successful') {
+            // checks message sent from lamba against requirment
+            return true;
+          } else {
+            return false;
+          }
         }),
-        catchError(error => {  // catches error thrown from above
-            console.error('Login error:', error);  // testing statement
-            return new Observable<boolean>(observer => {
-                observer.next(false); // sets to false
-                observer.complete();
-            });
+        catchError((error) => {
+          // catches error thrown from above
+          console.error('Login error:', error); // testing statement
+          return new Observable<boolean>((observer) => {
+            observer.next(false); // sets to false
+            observer.complete();
+          });
         })
->>>>>>> branchD
-    );
+      );
   }
 
   logout() {

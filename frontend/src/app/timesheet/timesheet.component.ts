@@ -15,6 +15,8 @@ interface previousRequest {
   styleUrls: ['./timesheet.component.css'],
 })
 export class TimeComponent {
+  managerSignature: string = ''; //stores signature
+  managerDate: string = '';
   selectedProject: string = '';
   isEditing: boolean = false; // boolean for table editing
   num_days: number = 28; // determines the width of the table
@@ -166,6 +168,10 @@ export class TimeComponent {
       this.num_days = daysInMonth;
       this.resetEmployeeHours();
     }
+  }
+  saveManagerDetails() {
+    console.log('Manager Signature: $(this.managerSignature}');
+    console.log('Manager Date: $(this.managerDate}');
   }
 
   // Resets the hours for each employee to ensure clean data for new month/year

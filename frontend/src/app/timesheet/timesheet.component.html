@@ -102,12 +102,23 @@
           "
         >
           <div>
-            <div style="border-top: 1px solid black; width: 200px"></div>
-            <p>Manager Signature</p>
+            <input
+              type="text"
+              [(ngModel)]="managerSignature"
+              placeholder="Enter Manager Signature"
+              class="signature-date-input"
+              style="border-top: 1px solid black; width: 200px"
+            />
+            <p class="signature-date-label"></p>
           </div>
           <div>
-            <div style="border-top: 1px solid black; width: 200px"></div>
-            <p>Date</p>
+            <input
+              type="date"
+              class="signature-date-input"
+              [(ngModel)]="managerDate"
+              style="border-top: 1px solid black; width: 200px"
+            />
+            <p class="signature-date-label"></p>
           </div>
         </div>
       </div>

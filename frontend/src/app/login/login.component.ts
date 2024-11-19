@@ -42,19 +42,24 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-import {provideNativeDateAdapter} from '@angular/material/core';
+import { provideNativeDateAdapter } from '@angular/material/core';
 
-import { FormControl, FormGroupDirective, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroupDirective,
+  FormsModule,
+  NgForm,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { merge } from 'rxjs'
+import { merge } from 'rxjs';
 import { AuthService } from '../auth.service';
-
 
 interface previousRequest {
   value: string;
   viewValue: string;
 }
-
 
 @Component({
   selector: 'app-login',
@@ -62,52 +67,45 @@ interface previousRequest {
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
   template: `
-  <input type="text" [(ngModel)]="username" placeholder="Username">
-  <input type="password" [(ngModel)]="password" placeholder="Password">
-  <button (click)="login()">Login</button>
-`
+    <input type="text" [(ngModel)]="username" placeholder="Username" />
+    <input type="password" [(ngModel)]="password" placeholder="Password" />
+    <button (click)="login()">Login</button>
+  `,
 })
 export class LoginComponent {
   username: string = ''; // Initialize with an empty string
   password: string = ''; // Initialize with an empty string
 
-  constructor(private authService: AuthService, private router: Router, private snackBar: MatSnackBar) { }
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private snackBar: MatSnackBar
+  ) {}
 
   login() {
-    this.authService.login(this.username, this.password)
-      .subscribe({
-        next: (success) => {
-          if (success) {
-            // Navigate to home component if login is successful
-            this.router.navigate(['/home']);
-          } else {
-            // Handle login failure
-<<<<<<< HEAD
-            this.openSnackBar('Login failed. Please try again.', 'Close'); // displays pop up
-=======
-            this.openSnackBar('Login failed. Please try again.', 'Close'); // displays pop up 
->>>>>>> branchD
-            console.error('Login failed');
-          }
-        },
-        error: (error) => {
-          // Handle login error
-          this.openSnackBar('An error occurred. Please try again.', 'Close');
-          console.error('Login error:', error);
+    this.authService.login(this.username, this.password).subscribe({
+      next: (success) => {
+        if (success) {
+          // Navigate to home component if login is successful
+          this.router.navigate(['/home']);
+        } else {
+          // Handle login failure
+          this.openSnackBar('Login failed. Please try again.', 'Close'); // displays pop up
+          console.error('Login failed');
         }
-      });
+      },
+      error: (error) => {
+        // Handle login error
+        this.openSnackBar('An error occurred. Please try again.', 'Close');
+        console.error('Login error:', error);
+      },
+    });
   }
 
-  private openSnackBar(message: string, action: string) { // this displays the error message that pops up when invalid username/password
+  private openSnackBar(message: string, action: string) {
+    // this displays the error message that pops up when invalid username/password
     this.snackBar.open(message, action, {
-<<<<<<< HEAD
       duration: 3000,
     });
   }
 }
-=======
-      duration: 1000,
-    });
-  }
-}
->>>>>>> branchD
