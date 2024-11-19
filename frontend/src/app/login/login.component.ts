@@ -71,7 +71,7 @@ export class LoginComponent {
   username: string = ''; // Initialize with an empty string
   password: string = ''; // Initialize with an empty string
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router, private snackBar: MatSnackBar) { }
 
   login() {
     this.authService.login(this.username, this.password)
@@ -82,19 +82,27 @@ export class LoginComponent {
             this.router.navigate(['/home']);
           } else {
             // Handle login failure
+            this.openSnackBar('Login failed. Please try again.', 'Close'); // displays pop up 
             console.error('Login failed');
           }
         },
         error: (error) => {
           // Handle login error
+          this.openSnackBar('An error occurred. Please try again.', 'Close');
           console.error('Login error:', error);
         }
       });
   }
+
+  private openSnackBar(message: string, action: string) { // this displays the error message that pops up when invalid username/password
+    this.snackBar.open(message, action, {
+      duration: 3000,
+    });
+  }
 }
-
-
-
-
-
-
+=======
+      duration: 1000,
+    });
+  }
+}
+>>>>>>> branchD

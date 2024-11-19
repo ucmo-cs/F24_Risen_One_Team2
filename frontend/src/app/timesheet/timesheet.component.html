@@ -1,7 +1,116 @@
 <!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Risen One Consulting - Timesheet</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Monthly Time Sheet</h1>
 
-<html lang="en" class="body">
-    <h1>
-        This is the timesheet page!
-    </h1>
+      <div class="box-1">
+        <div class="form-group">
+          <div>
+            <label for="project">Project Name:</label>
+            <select
+              id="project"
+              class="selectorBox"
+              [(ngModel)]="selectedProject"
+            >
+              <option *ngFor="let project of projects" [value]="project.value">
+                {{ project.viewValue }}
+              </option>
+            </select>
+          </div>
+          <div>
+            <label for="month">Select Month:</label>
+            <select id="month" class="selectorBox" [(ngModel)]="selectedMonth">
+              <option *ngFor="let month of months" [value]="month.value">
+                {{ month.viewValue }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="buttons">
+        <button (click)="exportToPDF()" class="button-exportToPDF">
+          Export
+        </button>
+        <button
+          (click)="editTimesheet()"
+          class="button-save"
+          [ngClass]="{ 'button-edit-active': isEditing }"
+        >
+          Edit
+        </button>
+        <button (click)="saveTimesheet()" class="button-save">Save</button>
+      </div>
+
+      <div class="box-2">
+        <div class="box-2-inside">
+          <h2>{{ selectedMonth }} {{ selectedYear }}</h2>
+          <table>
+            <thead>
+              <tr class="dates">
+                <th>Employees</th>
+                <th *ngFor="let day of days">{{ day }}</th>
+                <th class="total-column">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let employee of employees">
+                <td>{{ employee.name }}</td>
+                <td *ngFor="let day of days">
+                  <input
+                    type="number"
+                    [(ngModel)]="employee.hours[day - 1]"
+                    class="shortBasicInput-cost"
+                    [disabled]="!isEditing"
+                  />
+                </td>
+                <td class="total-column">
+                  {{ calculateTotalHours(employee.hours) }}
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr class="total-column">
+                <td><strong>Total Hours</strong></td>
+                <td *ngFor="let day of days; let i = index">
+                  <!-- Leave all cells blank except the last one -->
+                  <ng-container *ngIf="i === days.length - 1"> </ng-container>
+                </td>
+                <!-- Extra cell to ensure alignment with total hours heading -->
+                <td class="total-column">{{ calculateGrandTotalHours() }}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+
+      <div class="box-3">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            width: 80%;
+            margin: 20px auto;
+            padding-top: 30px;
+            height: 50px;
+          "
+        >
+          <div>
+            <div style="border-top: 1px solid black; width: 200px"></div>
+            <p>Manager Signature</p>
+          </div>
+          <div>
+            <div style="border-top: 1px solid black; width: 200px"></div>
+            <p>Date</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

@@ -1,0 +1,255 @@
+html {
+  background-color: #fbc900;
+}
+body {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: #fbc900;
+  height: fit-content;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 20px;
+  border-radius: 25px;
+  padding: 5px;
+  height: 90%;
+  width: 90%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.box-1 {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+  margin: 0 auto;
+  border: 2px solid grey;
+}
+.box-2 {
+  height: 400px auto;
+  width: 100%;
+  margin: 0 auto;
+  border: 2px solid grey;
+  overflow-x: auto;
+  table-layout: fixed;
+}
+.box-2-inside {
+  margin: 2px solid black;
+  width: auto;
+}
+.box-3 {
+  width: 100%;
+  margin: 0 auto;
+  border: 2px solid grey;
+  border-top: 0px;
+  padding-bottom: 10px;
+  margin-bottom: 50px;
+}
+.form-group {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  margin: 20px auto;
+}
+.form-group label {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.form-group select {
+  padding: 5px 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  width: 80%;
+  margin: 20px auto;
+}
+.certificateDropdown mat-form-field {
+  width: 30%;
+}
+p {
+  text-align: left;
+  font-family: "Montserrat";
+  margin-left: center;
+}
+h1 {
+  font-weight: bold;
+  text-align: center;
+  font-size: 35px;
+  margin-bottom: 20px;
+}
+.longTextAreaBox {
+  width: 910px;
+  padding-left: 63px;
+  padding-top: 30px;
+}
+.shortTextAreaBox {
+  width: 400px;
+  padding: 10px;
+  margin-right: 100px;
+  padding-left: 65px;
+}
+.shortBasicInput {
+  width: 375px;
+  padding: 10px;
+  margin-right: 125px;
+  padding-left: 65px;
+}
+.shortBasicInput-cost {
+  width: 75px;
+  padding: 10px;
+}
+.employeeName {
+  margin-right: 15px;
+  width: 300px;
+  padding-left: 65px;
+}
+.certName {
+  padding: 10px;
+  width: 385px;
+}
+.datePicker {
+  width: 390px;
+  padding: 10px;
+}
+.datePickerSignatures {
+  width: 275px;
+  padding: 30px;
+  margin-left: 15px;
+}
+.selectorBox {
+  padding-left: 65px;
+}
+mat-form-field {
+  overflow: visible;
+  padding-right: 200px;
+}
+table .mat-column-total {
+  border: 1px solid black;
+}
+.button-addNew {
+  border: none;
+  color: #000;
+  background-color: #fbc900;
+  padding: 10px 20px;
+  font-size: 16px;
+  margin-left: 20%;
+  border-radius: 25px;
+  height: 40px;
+}
+
+.button-exportToPDF {
+  border: 2px solid #e5a800;
+  background-color: white;
+  color: #e5a800;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 25px;
+  margin-left: 62%;
+  height: auto;
+  width: auto;
+  display: fixed;
+}
+.button-exportToPDF:hover {
+  background-color: #e5a800;
+  color: white;
+}
+.button-save {
+  padding: 10px 20px;
+  border: 2px solid #e5a800;
+  background-color: #e5a800;
+  color: white;
+  font-size: 16px;
+  border-radius: 25px;
+  height: 40px;
+  margin-left: 1%;
+}
+.button-save:hover {
+  background-color: white;
+  color: #e5a800;
+}
+
+mat-checkbox {
+  text-align: left;
+  padding-left: 65px;
+}
+text-area {
+  width: 50%;
+}
+.spacer {
+  flex: 1 1 auto;
+}
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  background: black;
+  font-size: 30px;
+  height: 10%;
+  padding-right: 100px;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+.menuIcon {
+  font-size: 50px;
+  padding-bottom: 30px;
+  padding-right: 25px;
+}
+.accountIcon {
+  font-size: 70px;
+  padding-bottom: 40px;
+  padding-right: 100px;
+}
+
+span {
+  background: black;
+  color: white;
+}
+
+table {
+  width: 100%;
+  table-layout: fixed;
+  text-align: center;
+  border: 2px black;
+}
+
+table th:first-child,
+table td:first-child {
+  width: 100px;
+  min-width: 100px;
+}
+
+table th:last-child,
+table td:last-child {
+  width: 50px;
+  text-align: center;
+}
+.total-column {
+  border: 1px black solid;
+  text-align: right;
+  padding-right: 10px;
+}
+.total-column:last-child {
+  text-align: right;
+  padding-right: 10px;
+}
+
+.dates {
+  background-color: #000;
+  color: white;
+}
+
+.button-edit-active {
+  background-color: #e5a800;
+}

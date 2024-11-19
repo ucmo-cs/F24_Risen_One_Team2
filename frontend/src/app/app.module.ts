@@ -1,3 +1,4 @@
+
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { AppHeaderComponent } from './components/app-header/app-header.component';
@@ -55,67 +56,71 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app.routes';
 import { LoginComponent } from './login/login.component';
+import { TimeComponent } from './timesheet/timesheet.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-    declarations: [
-      AppHeaderComponent,
-      AppFooterComponent,
-      HomeComponent,
-      SidenavComponent,
-      LoginComponent,
-      AppComponent
-    ],
-    exports: [],
-    bootstrap: [AppComponent],
-    imports: [
-        BrowserModule,
-        LayoutModule,
-        FormsModule,
-        ReactiveFormsModule,
-        BrowserAnimationsModule,
-        CommonModule,
-        MatAutocompleteModule,
-        MatCheckboxModule,
-        MatDatepickerModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatRadioModule,
-        MatSelectModule,
-        MatSliderModule,
-        MatSlideToggleModule,
-        MatMenuModule,
-        MatSidenavModule,
-        MatToolbarModule,
-        MatCardModule,
-        MatDividerModule,
-        MatExpansionModule,
-        MatGridListModule,
-        MatListModule,
-        MatStepperModule,
-        MatTabsModule,
-        MatTreeModule,
-        MatButtonModule,
-        MatButtonToggleModule,
-        MatBadgeModule,
-        MatChipsModule,
-        MatIconModule,
-        MatProgressSpinnerModule,
-        MatProgressBarModule,
-        MatRippleModule,
-        MatBottomSheetModule,
-        MatDialogModule,
-        MatSnackBarModule,
-        MatTooltipModule,
-        MatPaginatorModule,
-        MatSortModule,
-        MatTableModule,
-        FormsModule,
-        ReactiveFormsModule,
-        AppRoutingModule,
-    ],
-    providers: [
-        MatSnackBar,
-        provideHttpClient(withInterceptorsFromDi()),
-    ]
-  })
-  export class AppModule {}
+  declarations: [
+    AppHeaderComponent,
+    AppFooterComponent,
+    HomeComponent,
+    SidenavComponent,
+    LoginComponent,
+    AppComponent,
+    TimeComponent
+  ],
+  exports: [],
+  bootstrap: [AppComponent],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    LayoutModule,
+    FormsModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    CommonModule,
+    MatAutocompleteModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatRadioModule,
+    MatSelectModule,
+    MatSliderModule,
+    MatSlideToggleModule,
+    MatMenuModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatCardModule,
+    MatDividerModule,
+    MatExpansionModule,
+    MatGridListModule,
+    MatListModule,
+    MatStepperModule,
+    MatTabsModule,
+    MatTreeModule,
+    MatButtonModule,
+    MatButtonToggleModule,
+    MatBadgeModule,
+    MatChipsModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule,
+    MatRippleModule,
+    MatBottomSheetModule,
+    MatDialogModule,
+    MatSnackBarModule,
+    MatTooltipModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatTableModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AppRoutingModule,
+  ],
+  providers: [
+    MatSnackBar,
+    provideHttpClient(withInterceptorsFromDi()),
+  ]
+})
+export class AppModule {}
