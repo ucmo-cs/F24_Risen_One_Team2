@@ -24,12 +24,12 @@ resources:
     TimeCard:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: TimeCard
+        TableName: TimeCardData
         AttributeDefinitions:
-          - AttributeName: employeeName
+          - AttributeName: projectName
             AttributeType: S
         KeySchema:
-          - AttributeName: employeeName
+          - AttributeName: projectName
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
 

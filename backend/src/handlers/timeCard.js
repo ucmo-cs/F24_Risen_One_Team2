@@ -2,54 +2,50 @@ const AWS = require('aws-sdk');
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 exports.handler = async (event) => {
-    // Parse the body from the event
-    const { employeeName, monthYear, projectID, day, hours }=JSON.parse(event.body);
-    const dayIndex = day - 1;  // Convert day to 0-indexed
+    const { projectName, monthYear, employeeName, day, hours } = JSON.parse(event.body);
+    const dayIndex = day - 1; // Convert day to 0-indexed
 
     try {
-        // Attempt to fetch the current timecard for the employee and month
+        // Fetch the current timecard for the project and month
         const getParams = {
-            TableName: 'TimeCard',
+            TableName: 'TimeCardData',
             Key: {
-                'employeeName': employeeName,
-                'monthYear': monthYear  // Ensure this is correct
-            }
+                'projectName': projectName,
+                'monthYear': monthYear,
+            },
         };
 
         const result = await dynamoDb.get(getParams).promise();
 
-        let dailyHours;
+        let employees;
         if (result.Item) {
-            // If record exists, get the DailyHours array
-            dailyHours = result.Item.DailyHours;
+            // If the record exists, get the Employees object
+            employees = result.Item.Employees || {};
         } else {
-            // Initialize DailyHours array with 31 days if no record exists
-            dailyHours = Array(31).fill([]).map(() => []);
+            // Initialize an empty Employees object if no record exists
+            employees = {};
         }
 
-        // Find or add the project entry for the specific day
-        const projectsForDay = dailyHours[dayIndex];
-        let projectEntry = projectsForDay.find(project => project.ProjectID === projectID);
-
-        if (projectEntry) {
-            // Update the hours if project already exists for the day
-            projectEntry.Hours = hours;
-        } else {
-            // Add a new project entry if it doesn't exist for the day
-            projectsForDay.push({ ProjectID: projectID, Hours: hours });
+        // Check if the employee already has a DailyHours array
+        if (!employees[employeeName]) {
+            // Initialize DailyHours for the employee with 31 days
+            employees[employeeName] = { DailyHours: Array(31).fill(0) };
         }
 
-        // Update or create the record in DynamoDB with the modified DailyHours array
+        // Update the specific day's hours for the employee
+        employees[employeeName].DailyHours[dayIndex] = hours;
+
+        // Update or create the record in DynamoDB with the modified Employees object
         const updateParams = {
-            TableName: 'TimeCard',
+            TableName: 'TimeCardData',
             Key: {
-                'employeeName': employeeName,
-                'monthYear': monthYear  // Ensure this is correct
+                'projectName': projectName,
+                'monthYear': monthYear,
             },
-            UpdateExpression: 'SET DailyHours = :updatedDailyHours',
+            UpdateExpression: 'SET Employees = :updatedEmployees',
             ExpressionAttributeValues: {
-                ':updatedDailyHours': dailyHours
-            }
+                ':updatedEmployees': employees,
+            },
         };
 
         await dynamoDb.update(updateParams).promise();
@@ -58,12 +54,11 @@ exports.handler = async (event) => {
             statusCode: 200,
             body: JSON.stringify({ message: 'Timecard updated successfully' }),
         };
-
     } catch (error) {
         console.error('Error updating timecard:', error);
         return {
             statusCode: 500,
-            body: JSON.stringify({ message: 'Error updating timecard', error }),
+            body: JSON.stringify({ message: 'Error updating timecard', error: error.message }),
         };
     }
 };
