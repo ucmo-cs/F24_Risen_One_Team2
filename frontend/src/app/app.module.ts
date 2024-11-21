@@ -58,6 +58,7 @@ import { AppRoutingModule } from './app.routes';
 import { LoginComponent } from './login/login.component';
 import { TimeComponent} from './timesheet/timesheet.component';
 import { HttpClientModule } from '@angular/common/http';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 @NgModule({
   declarations: [
@@ -121,6 +122,7 @@ import { HttpClientModule } from '@angular/common/http';
   providers: [
     MatSnackBar,
     provideHttpClient(withInterceptorsFromDi()),
+    provideAnimationsAsync(),
   ]
 })
 export class AppModule {}

@@ -43,6 +43,11 @@ export class TimeComponent {
     { value: 'November ', viewValue: 'November ' },
     { value: 'December ', viewValue: 'December ' },
   ];
+  //array to store the selectable year
+  years: number[] = Array.from(
+    { length: 20 },
+    (_, i) => new Date().getFullYear() - 10 + i
+  );
 
   // Determines the number of days in the table
   days: number[] = Array.from({ length: this.num_days }, (_, i) => i + 1);
