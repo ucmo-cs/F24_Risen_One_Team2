@@ -2,46 +2,51 @@ const AWS = require('aws-sdk');
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 exports.handler = async (event) => {
-    const employeeName = event.queryStringParameters.employeeName;
-    const monthYear = event.queryStringParameters.monthYear;
+    // Extract parameters from the request
+    const projectName = event.queryStringParameters.projectName; // Primary key
+    const monthYear = event.queryStringParameters.monthYear; // Sort key
 
     try {
-        // Parameters to retrieve data for the specific employee and month
+        // Get the specific timecard data for the given project and monthYear
         const getParams = {
-            TableName: 'TimeCard',
+            TableName: 'TimeCardData',
             Key: {
-                'employeeName': employeeName,
-                'monthYear': monthYear
-            }
+                'projectName': projectName,
+                'monthYear': monthYear,
+            },
         };
 
-        // Fetch the record from DynamoDB
         const result = await dynamoDb.get(getParams).promise();
 
         if (result.Item) {
-            // If record exists, return the timecard data
+            // Extract and structure the Employees object
+            const employeesData = Object.entries(result.Item.Employees).map(([employeeName, data]) => ({
+                employeeName,
+                DailyHours: data.DailyHours,
+            }));
+
             return {
                 statusCode: 200,
                 body: JSON.stringify({
-                    message: 'Timecard retrieved successfully',
-                    data: result.Item
-                })
+                    message: 'Employee timecard data retrieved successfully',
+                    data: employeesData,
+                }),
             };
         } else {
-            // If no record found for the given employeeID and monthYear
+            // No data found for the given project and monthYear
             return {
                 statusCode: 404,
                 body: JSON.stringify({
-                    message: 'Timecard not found for the specified employee and month'
-                })
+                    message: 'No timecard data found for the specified project and month',
+                }),
             };
         }
-
     } catch (error) {
+        // Log the error and return a failure response
         console.error('Error retrieving timecard:', error);
         return {
             statusCode: 500,
-            body: JSON.stringify({ message: 'Error retrieving timecard', error }),
+            body: JSON.stringify({ message: 'Error retrieving timecard', error: error.message }),
         };
     }
 };
