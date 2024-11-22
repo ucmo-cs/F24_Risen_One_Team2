@@ -73,7 +73,7 @@
                 <td *ngFor="let day of days">
                   <input
                     type="number"
-                    [(ngModel)]="employee.hours[day - 1]"
+                    [(ngModel)]="employee.hours[day]"
                     class="shortBasicInput-cost"
                     [disabled]="!isEditing"
                   />
