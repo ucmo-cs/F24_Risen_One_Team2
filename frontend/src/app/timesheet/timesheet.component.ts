@@ -1,11 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { jsPDF } from 'jspdf'; // import jsPDF to be able to export the page to pdf
+import { jsPDF } from 'jspdf';
+import { TimesheetService } from './timesheet.component.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { forkJoin } from 'rxjs';
 
-interface previousRequest {
+interface PreviousRequest {
   value: string;
   viewValue: string;
+}
+
+interface TimesheetEntry {
+  projectName: string;
+  monthYear: string;
+  employeeName: string;
+  day: number;
+  hours: number;
 }
 
 @Component({
@@ -14,55 +25,63 @@ interface previousRequest {
   templateUrl: './timesheet.component.html',
   styleUrls: ['./timesheet.component.css'],
 })
-export class TimeComponent {
+export class TimeComponent implements OnInit {
   selectedProject: string = '';
-  isEditing: boolean = false; // boolean for table editing
-  num_days: number = 28; // determines the width of the table
+  isEditing: boolean = false;
+  num_days: number = 28;
+  isLoading: boolean = false;
 
-  // Array to store the projects in the dropdown
-  projects: previousRequest[] = [
+  projects: PreviousRequest[] = [
     { value: 'BAER', viewValue: 'BAER' },
     { value: 'XYZ Corp', viewValue: 'XYZ Corp' },
     { value: 'Alpha Co', viewValue: 'Alpha Co' },
   ];
 
-  // Array to store the months displayed in the dropdown
-  months: previousRequest[] = [
-    { value: 'January ', viewValue: 'January ' },
-    { value: 'February ', viewValue: 'February ' },
-    { value: 'March ', viewValue: 'March ' },
-    { value: 'April ', viewValue: 'April ' },
-    { value: 'May ', viewValue: 'May ' },
-    { value: 'June ', viewValue: 'June ' },
-    { value: 'July ', viewValue: 'July ' },
-    { value: 'August ', viewValue: 'August ' },
-    { value: 'September ', viewValue: 'September ' },
-    { value: 'October ', viewValue: 'October ' },
-    { value: 'November ', viewValue: 'November ' },
-    { value: 'December ', viewValue: 'December ' },
+  months: PreviousRequest[] = [
+    { value: 'January', viewValue: 'January' },
+    { value: 'February', viewValue: 'February' },
+    { value: 'March', viewValue: 'March' },
+    { value: 'April', viewValue: 'April' },
+    { value: 'May', viewValue: 'May' },
+    { value: 'June', viewValue: 'June' },
+    { value: 'July', viewValue: 'July' },
+    { value: 'August', viewValue: 'August' },
+    { value: 'September', viewValue: 'September' },
+    { value: 'October', viewValue: 'October' },
+    { value: 'November', viewValue: 'November' },
+    { value: 'December', viewValue: 'December' },
   ];
 
-  // Determines the number of days in the table
-  days: number[] = Array.from({ length: this.num_days }, (_, i) => i + 1);
-
-  // Array to store the employees
-  employees: { name: string; hours: { [key: string]: number } }[] = [
-    { name: 'Jane Doe', hours: this.initializeHours() },
-    { name: 'John Doe', hours: this.initializeHours() },
-    { name: 'Michael Smith', hours: this.initializeHours() },
-    { name: 'Jon Doe', hours: this.initializeHours() },
-    { name: 'Steve Smith', hours: this.initializeHours() },
+  days: number[] = [];
+  timesheetEntries: TimesheetEntry[] = [];
+  employees: { name: string; hours?: { [key: string]: number } }[] = [];
+  hardcodedEmployees: string[] = [
+    'John Doe',
+    'Jane Smith',
+    'Mike Green'
   ];
 
   years: number[] = this.generateYearOptions();
 
-  constructor(private router: Router) {}
+  private _selectedMonth: string = '';
+  private _selectedYear: number = new Date().getFullYear();
+
+  constructor(
+    private router: Router,
+    private timesheetService: TimesheetService,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit() {
     const currentDate = new Date();
     this.selectedMonth = this.months[currentDate.getMonth()].value;
     this.selectedYear = currentDate.getFullYear();
     this.updateDays();
+    this.initializeEmployees();
+  }
+
+  initializeEmployees() {
+    this.employees = this.hardcodedEmployees.map(name => ({ name, hours: {} }));
   }
 
   generateYearOptions(): number[] {
@@ -70,37 +89,132 @@ export class TimeComponent {
     return Array.from({ length: 6 }, (_, index) => currentYear - index).reverse();
   }
 
+  loadTimesheetData() {
+    if (!this.selectedProject) return;
 
-  signIn() {
-    // Placeholder for sign-in navigation
-    this.router.navigate(['/home']);
+    const monthYear = `${this.selectedMonth}-${this.selectedYear}`;
+    this.isLoading = true;
+    this.timesheetService.getTimesheetData(this.selectedProject, monthYear).subscribe({
+      next: (data) => {
+        this.timesheetEntries = data;
+        this.updateEmployeesFromEntries();
+        this.isLoading = false;
+      },
+      error: (error) => {
+        this.openSnackBar('Error loading timesheet data', 'Close');
+        console.error('Error loading timesheet data:', error);
+        this.isLoading = false;
+      }
+    });
   }
-
-  // Initializes all the hours in the table
-  initializeHours(): { [key: string]: number } {
-    const hours: { [key: string]: number } = {};
-    this.days.forEach((day) => {
-      hours[day] = 0;
+  
+  ensureAllHardcodedEmployees() {
+    const existingEmployees = new Set(this.employees.map(e => e.name));
+    this.hardcodedEmployees.forEach(name => {
+      if (!existingEmployees.has(name)) {
+        this.employees.push({ name, hours: {} });
+      }
     });
   }
 
-  // Calculates the total hours displayed in the total column
-  calculateTotalHours(hours: { [key: string]: number }): number {
-    return Object.values(hours).reduce((total, current) => total + current, 0);
+  updateEmployeesFromEntries() {
+    const employeeMap = new Map(this.employees.map(e => [e.name, e]));
+
+    this.timesheetEntries.forEach(entry => {
+      if (employeeMap.has(entry.employeeName)) {
+        const employee = employeeMap.get(entry.employeeName)!;
+        if (employee.hours) {
+          employee.hours[entry.day] = entry.hours;
+        } else {
+          employee.hours = { [entry.day]: entry.hours };
+        }
+      }
+    });
+
+    this.employees = Array.from(employeeMap.values());
+  }
+  
+
+  saveTimesheet() {
+    this.isLoading = true;
+    const entriesToSave = this.employees.flatMap(employee => 
+      Object.entries(employee.hours || {}).map(([day, hours]) => ({
+        projectName: this.selectedProject,
+        monthYear: `${this.selectedMonth}-${this.selectedYear}`,
+        employeeName: employee.name,
+        day: parseInt(day),
+        hours: hours
+      }))
+    ).filter(entry => entry.hours > 0);
+  
+    const saveObservables = entriesToSave.map(entry => 
+      this.timesheetService.saveTimesheetEntry(entry)
+    );
+  
+    forkJoin(saveObservables).subscribe({
+      next: () => {
+        this.openSnackBar('Timesheet saved successfully', 'Close');
+        this.isEditing = false;
+        this.isLoading = false;
+      },
+      error: (error: any) => {
+        this.openSnackBar('Error saving timesheet', 'Close');
+        console.error('Error saving timesheet:', error);
+        this.isLoading = false;
+      }
+    });
   }
 
-  // Calculates total hours per day across all employees
-  calculateTotalHoursPerDay(day: number): number {
-    return this.employees.reduce(
-      (total, employee) => total + (employee.hours[day] || 0),
-      0
-    );
+  onProjectChange() {
+    if (this.selectedProject) {
+      this.loadTimesheetData();
+    }
+  }
 
-  calculateGrandTotalHours(): number {
-    return this.days.reduce(
-      (total, day) => total + this.calculateTotalHoursPerDay(day),
-      0
-    );
+  get selectedMonth(): string {
+    return this._selectedMonth;
+  }
+
+  set selectedMonth(value: string) {
+    this._selectedMonth = value;
+    this.updateDays();
+    if (this.selectedProject) {
+      this.loadTimesheetData();
+    }
+  }
+
+  get selectedYear(): number {
+    return this._selectedYear;
+  }
+
+  set selectedYear(value: number) {
+    this._selectedYear = value;
+    this.updateDays();
+    if (this.selectedProject) {
+      this.loadTimesheetData();
+    }
+  }
+
+  updateDays() {
+    if (this.selectedMonth && this.selectedYear) {
+      const daysInMonth = this.getDaysInMonth(this.selectedMonth, this.selectedYear);
+      this.days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+      this.num_days = daysInMonth;
+    }
+  }
+
+  getDaysInMonth(month: string, year: number): number {
+    const monthIndex = this.months.findIndex((m) => m.value.trim() === month.trim());
+    return new Date(year, monthIndex + 1, 0).getDate();
+  }
+
+  editTimesheet() {
+    this.isEditing = !this.isEditing;
+  }
+
+  exportToPDF(): void {
+    const doc = new jsPDF();
+    const element = document.querySelector('.container') as HTMLElement;
 
     if (element) {
       doc.html(element, {
@@ -119,55 +233,44 @@ export class TimeComponent {
     }
   }
 
-  // Toggles between editing and viewing modes
-  editTimesheet() {
-    this.isEditing = !this.isEditing;
-    console.log(
-      this.isEditing ? 'Editing timesheet...' : 'Viewing timesheet...'
+  calculateTotalHours(hours?: { [key:string]: number }): number {
+    return hours ? Object.values(hours).reduce((total, hours) => total + hours, 0) : 0;
+  }
+
+  calculateTotalHoursPerDay(day: number): number {
+    return this.employees.reduce((total, employee) => {
+      if (employee.hours && employee.hours[day] !== undefined) {
+        return total + employee.hours[day];
+      }
+      return total;
+    }, 0);
+  }
+
+  calculateGrandTotalHours(): number {
+    return this.employees.reduce((total, employee) => 
+      total + Object.values(employee.hours || {}).reduce((sum, hours) => sum + hours, 0), 
+      0
     );
-  }
-
-  // Save function that logs saving action (placeholder for actual save logic)
-  saveTimesheet() {
-    console.log('Saving timesheet...');
-  }
-
-  get selectedMonth(): string {
-    return this._selectedMonth;
-  }
-  set selectedMonth(value: string) {
-    this._selectedMonth = value;
-    this.updateDays();
-  }
-
-  get selectedYear(): number {
-    return this._selectedYear;
-  }
-  set selectedYear(value: number) {
-    this._selectedYear = value;
-    this.updateDays();
-  }
-
-  updateDays() {
-    if (this.selectedMonth && this.selectedYear) {
-      const daysInMonth = this.getDaysInMonth(
-        this.selectedMonth,
-        this.selectedYear
-      );
-      this.days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
-      this.num_days = daysInMonth;
-    }
-  }
-
-  // Resets the hours for each employee to ensure clean data for new month/year
-  resetEmployeeHours() {
-    this.employees.forEach((employee) => {
-      employee.hours = this.initializeHours();
-    });
   }
 
   getFormattedMonthYear(): string {
     const monthIndex = this.months.findIndex(m => m.value === this.selectedMonth);
     return `${(monthIndex + 1).toString().padStart(2, '0')}/${this.selectedYear.toString().slice(-2)}`;
+  }
+
+  private openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 3000,
+    });
+  }
+  getHours(employee: any, day: number): number {
+    return employee.hours?.[day - 1] || 0;
+  }
+  
+  setHours(employee: any, day: number, value: number) {
+    if (!employee.hours) {
+      employee.hours = {};
+    }
+    employee.hours[day - 1] = value;
   }
 }

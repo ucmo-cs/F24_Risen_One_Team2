@@ -17,6 +17,7 @@
               id="project"
               class="selectorBox"
               [(ngModel)]="selectedProject"
+              (ngModelChange)="onProjectChange()"
             >
               <option *ngFor="let project of projects" [value]="project.value">
                 {{ project.viewValue }}
@@ -43,20 +44,29 @@
       </div>
 
       <div class="buttons">
-        <button (click)="exportToPDF()" class="button-exportToPDF">
+        <button (click)="exportToPDF()" class="button-exportToPDF" [disabled]="isLoading">
           Export
         </button>
         <button
           (click)="editTimesheet()"
           class="button-save"
           [ngClass]="{ 'button-edit-active': isEditing }"
+          [disabled]="isLoading"
         >
-          Edit
+          {{ isEditing ? 'Cancel Edit' : 'Edit' }}
         </button>
-        <button (click)="saveTimesheet()" class="button-save">Save</button>
+        <button 
+          (click)="saveTimesheet()" 
+          class="button-save" 
+          [disabled]="!isEditing || isLoading"
+        >
+          Save
+        </button>
       </div>
 
-      <div class="box-2">
+      <mat-spinner *ngIf="isLoading"></mat-spinner>
+
+      <div class="box-2" *ngIf="!isLoading">
         <div class="box-2-inside">
           <h2>{{ selectedMonth }} {{ selectedYear }}</h2>
           <table>
@@ -73,7 +83,8 @@
                 <td *ngFor="let day of days">
                   <input
                     type="number"
-                    [(ngModel)]="employee.hours[day - 1]"
+                    [ngModel]="getHours(employee, day)"
+                    (ngModelChange)="setHours(employee, day, $event)"
                     class="shortBasicInput-cost"
                     [disabled]="!isEditing"
                   />
