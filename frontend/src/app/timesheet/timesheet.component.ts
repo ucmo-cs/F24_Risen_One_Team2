@@ -82,7 +82,6 @@ export class TimeComponent {
     this.days.forEach((day) => {
       hours[day] = 0;
     });
-    return hours;
   }
 
   // Calculates the total hours displayed in the total column
@@ -96,19 +95,12 @@ export class TimeComponent {
       (total, employee) => total + (employee.hours[day] || 0),
       0
     );
-  }
 
   calculateGrandTotalHours(): number {
     return this.days.reduce(
       (total, day) => total + this.calculateTotalHoursPerDay(day),
       0
     );
-  }
-
-  // Exports box-2 to pdf using jsPDF
-  exportToPDF(): void {
-    const doc = new jsPDF();
-    const element = document.querySelector('.container') as HTMLElement;
 
     if (element) {
       doc.html(element, {
@@ -140,16 +132,6 @@ export class TimeComponent {
     console.log('Saving timesheet...');
   }
 
-  // Determines the number of days in a given month and year
-  getDaysInMonth(month: string, year: number): number {
-    const monthIndex = this.months.findIndex(
-      (m) => m.value.trim() === month.trim()
-    );
-    return new Date(year, monthIndex + 1, 0).getDate();
-  }
-
-  // Private property and getter/setter for selectedMonth
-  private _selectedMonth: string = '';
   get selectedMonth(): string {
     return this._selectedMonth;
   }
@@ -158,8 +140,6 @@ export class TimeComponent {
     this.updateDays();
   }
 
-  // Private property and getter/setter for selectedYear
-  private _selectedYear: number = new Date().getFullYear();
   get selectedYear(): number {
     return this._selectedYear;
   }
@@ -168,7 +148,6 @@ export class TimeComponent {
     this.updateDays();
   }
 
-  // Updates days array and resets employee hours when month or year changes
   updateDays() {
     if (this.selectedMonth && this.selectedYear) {
       const daysInMonth = this.getDaysInMonth(
@@ -177,7 +156,6 @@ export class TimeComponent {
       );
       this.days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
       this.num_days = daysInMonth;
-      this.resetEmployeeHours();
     }
   }
 
