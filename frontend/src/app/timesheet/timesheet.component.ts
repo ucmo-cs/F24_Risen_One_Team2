@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { jsPDF } from 'jspdf'; // import jsPDF to be able to export the page to pdf
+import { HttpClientModule } from '@angular/common/http';
+import { TimesheetService } from './timesheet.component.service';
 
 interface previousRequest {
   value: string;
@@ -61,7 +63,10 @@ export class TimeComponent {
     { name: 'Steve Smith', hours: this.initializeHours() },
   ];
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private timesheetService: TimesheetService
+  ) {}
 
   ngOnInit() {}
 
@@ -130,8 +135,36 @@ export class TimeComponent {
   }
 
   // Save function that logs saving action (placeholder for actual save logic)
-  saveTimesheet() {
-    console.log('Saving timesheet...');
+  saveTimesheet(): void {
+    if (!this.selectedProject || !this.selectedMonth || !this.selectedYear) {
+      alert(
+        'Please complete project, month, and year selection before saving.'
+      );
+      return;
+    }
+    //prepare timesheet data
+    const timesheetData = {
+      project: this.selectedProject,
+      month: this.selectedMonth,
+      year: this.selectedYear,
+      employees: this.employees.map((employee) => ({
+        name: employee.name,
+        hours: { ...employee.hours },
+        totalHours: this.calculateTotalHours(employee.hours),
+      })),
+      dailyTotals: this.days.map((day) => ({
+        day,
+        totalHours: this.calculateTotalHoursPerDay(day),
+      })),
+      grandTotal: this.calculateGrandTotalHours(),
+      managerSignature: this.managerSignature,
+      managerDate: this.managerDate,
+    };
+    // call service to save timesheet
+    this.timesheetService.saveTimesheet(timesheetData).subscribe({
+      next: () => alert('Timesheet saved successfully!'),
+      error: () => alert('An error occurred while saving the timesheet.'),
+    });
   }
 
   // Determines the number of days in a given month and year
@@ -175,8 +208,8 @@ export class TimeComponent {
     }
   }
   saveManagerDetails() {
-    console.log('Manager Signature: $(this.managerSignature}');
-    console.log('Manager Date: $(this.managerDate}');
+    console.log('Manager Signature: ${this.managerSignature}');
+    console.log('Manager Date: ${this.managerDate}');
   }
 
   // Resets the hours for each employee to ensure clean data for new month/year
