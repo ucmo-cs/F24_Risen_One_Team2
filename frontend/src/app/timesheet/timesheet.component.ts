@@ -62,13 +62,13 @@ export class TimeComponent {
   ngOnInit() {}
 
   // Initialize all the hours in the table
-  initializeHours(): { [key: string]: number } {
-    const hours: { [key: string]: number } = {};
+  initializeHours(): { [key: number]: number } {
+    const hours: { [key: number]: number } = {};
     this.days.forEach((day) => {
-      hours[day] = 0;
+        hours[day] = 0;
     });
     return hours;
-  }
+}
 
   // Calculates the total hours displayed in the total column
   calculateTotalHours(hours: { [key: string]: number }): number {
@@ -125,14 +125,14 @@ export class TimeComponent {
     console.log('Saving timesheet...');
     this.employees.forEach((employee) => {
       this.days.forEach((day) => {
-        console.log(`Employee: ${employee.name}, Day: ${day}, Hours: ${employee.hours[day - 1]}`);
-        if (employee.hours[day - 1] > 0) {
+        console.log(`Employee: ${employee.name}, Day: ${day}, Hours: ${employee.hours[day]}`);
+        if (employee.hours[day] > 0) {
           const payload = {
             projectName: this.selectedProject,
             monthYear: `${this.selectedYear}-${this.selectedMonth}`,
             employeeName: employee.name,
             day: day,
-            hours: employee.hours[day - 1]
+            hours: employee.hours[day]
           };
 
           this.timesheetService.saveTimeCard(payload).subscribe(
