@@ -50,11 +50,7 @@ export class TimeComponent {
 
   // Array to store the employees
   employees: { name: string; hours: { [key: string]: number } }[] = [
-    { name: 'Jane Doe', hours: this.initializeHours() },
-    { name: 'John Doe', hours: this.initializeHours() },
-    { name: 'Michael Smith', hours: this.initializeHours() },
-    { name: 'Jon Doe', hours: this.initializeHours() },
-    { name: 'Steve Smith', hours: this.initializeHours() },
+    { name: 'Matt M', hours: this.initializeHours() },
   ];
 
   constructor(private router: Router, private timesheetService: TimesheetService) {}
