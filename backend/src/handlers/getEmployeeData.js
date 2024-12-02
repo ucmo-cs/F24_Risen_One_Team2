@@ -25,8 +25,14 @@ exports.handler = async (event) => {
                 DailyHours: data.DailyHours,
             }));
 
+            // Return the success response with CORS headers
             return {
                 statusCode: 200,
+                headers: {
+                    'Access-Control-Allow-Origin': '*', // Allows all origins (or specify 'http://localhost:4200' for dev)
+                    'Access-Control-Allow-Methods': 'OPTIONS,POST,GET', // Allow these methods
+                    'Access-Control-Allow-Headers': 'Content-Type', // Allow Content-Type header
+                },
                 body: JSON.stringify({
                     message: 'Employee timecard data retrieved successfully',
                     data: employeesData,
@@ -36,6 +42,11 @@ exports.handler = async (event) => {
             // No data found for the given project and monthYear
             return {
                 statusCode: 404,
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
+                    'Access-Control-Allow-Headers': 'Content-Type',
+                },
                 body: JSON.stringify({
                     message: 'No timecard data found for the specified project and month',
                 }),
@@ -46,6 +57,11 @@ exports.handler = async (event) => {
         console.error('Error retrieving timecard:', error);
         return {
             statusCode: 500,
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
+                'Access-Control-Allow-Headers': 'Content-Type',
+            },
             body: JSON.stringify({ message: 'Error retrieving timecard', error: error.message }),
         };
     }
