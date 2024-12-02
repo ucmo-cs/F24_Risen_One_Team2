@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { jsPDF } from 'jspdf'; // import jsPDF to be able to export the page to pdf
+import { TimesheetService } from './timesheet.component.service'; // Import the service
 
 interface previousRequest {
   value: string;
@@ -15,11 +16,11 @@ interface previousRequest {
   styleUrls: ['./timesheet.component.css'],
 })
 export class TimeComponent {
-  managerSignature: string = ''; //stores signature
+  managerSignature: string = '';
   managerDate: string = '';
   selectedProject: string = '';
-  isEditing: boolean = false; // boolean for table editing
-  num_days: number = 28; // determines the width of the table
+  isEditing: boolean = false;
+  num_days: number = 28;
 
   // Array to store the projects in the dropdown
   projects: previousRequest[] = [
@@ -56,16 +57,11 @@ export class TimeComponent {
     { name: 'Steve Smith', hours: this.initializeHours() },
   ];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private timesheetService: TimesheetService) {}
 
   ngOnInit() {}
 
-  signIn() {
-    // Placeholder for sign-in navigation
-    this.router.navigate(['/home']);
-  }
-
-  // Initializes all the hours in the table
+  // Initialize all the hours in the table
   initializeHours(): { [key: string]: number } {
     const hours: { [key: string]: number } = {};
     this.days.forEach((day) => {
@@ -127,7 +123,31 @@ export class TimeComponent {
   // Save function that logs saving action (placeholder for actual save logic)
   saveTimesheet() {
     console.log('Saving timesheet...');
+    this.employees.forEach((employee) => {
+      this.days.forEach((day) => {
+        console.log(`Employee: ${employee.name}, Day: ${day}, Hours: ${employee.hours[day - 1]}`);
+        if (employee.hours[day - 1] > 0) {
+          const payload = {
+            projectName: this.selectedProject,
+            monthYear: `${this.selectedYear}-${this.selectedMonth}`,
+            employeeName: employee.name,
+            day: day,
+            hours: employee.hours[day - 1]
+          };
+
+          this.timesheetService.saveTimeCard(payload).subscribe(
+            (response: any) => {
+              console.log('Timecard saved successfully:', response);
+            },
+            (error: any) => {
+              console.error('Error saving timecard:', error);
+            }
+          );
+        }
+      });
+    });
   }
+
 
   // Determines the number of days in a given month and year
   getDaysInMonth(month: string, year: number): number {
@@ -168,10 +188,6 @@ export class TimeComponent {
       this.num_days = daysInMonth;
       this.resetEmployeeHours();
     }
-  }
-  saveManagerDetails() {
-    console.log('Manager Signature: $(this.managerSignature}');
-    console.log('Manager Date: $(this.managerDate}');
   }
 
   // Resets the hours for each employee to ensure clean data for new month/year
