@@ -50,7 +50,11 @@ export class TimeComponent {
 
   // Array to store the employees
   employees: { name: string; hours: { [key: string]: number } }[] = [
-    { name: 'Matt M', hours: this.initializeHours() },
+    { name: 'Matt John', hours: this.initializeHours() },
+    { name: 'Ralph Ruby', hours: this.initializeHours() },
+    { name: 'Ian Bennett', hours: this.initializeHours() },
+    { name: 'Korbyn Irvin', hours: this.initializeHours() },
+    { name: 'Brandon Rayos', hours: this.initializeHours() },
   ];
 
   constructor(private router: Router, private timesheetService: TimesheetService) {}
@@ -67,7 +71,7 @@ export class TimeComponent {
 }
 
   // Calculates the total hours displayed in the total column
-  calculateTotalHours(hours: { [key: string]: number }): number {
+  calculateTotalHours(hours: { [key: number]: number }): number {
     return Object.values(hours).reduce((total, current) => total + current, 0);
   }
 
@@ -118,31 +122,54 @@ export class TimeComponent {
 
   // Save function that logs saving action (placeholder for actual save logic)
   saveTimesheet() {
-    console.log('Saving timesheet...');
-    this.employees.forEach((employee) => {
-      this.days.forEach((day) => {
-        console.log(`Employee: ${employee.name}, Day: ${day}, Hours: ${employee.hours[day]}`);
-        if (employee.hours[day] > 0) {
-          const payload = {
-            projectName: this.selectedProject,
-            monthYear: `${this.selectedYear}-${this.selectedMonth}`,
-            employeeName: employee.name,
-            day: day,
-            hours: employee.hours[day]
-          };
+    if (!this.selectedProject || !this.selectedMonth || !this.selectedYear) {
+        console.error('Please select project, month, and year');
+        return;
+    }
 
-          this.timesheetService.saveTimeCard(payload).subscribe(
-            (response: any) => {
-              console.log('Timecard saved successfully:', response);
-            },
-            (error: any) => {
-              console.error('Error saving timecard:', error);
+    // Create an array to store all the requests
+    const requests: any[] = [];
+
+    // First, gather all the data that needs to be sent
+    this.employees.forEach((employee) => {
+        Object.entries(employee.hours).forEach(([day, hours]) => {
+            // Convert day back to number and check if hours exist
+            const dayNum = parseInt(day);
+            if (hours && hours > 0) {
+                const payload = {
+                    projectName: this.selectedProject,
+                    monthYear: `${this.selectedYear}-${this.selectedMonth.trim()}`,
+                    employeeName: employee.name,
+                    day: dayNum,
+                    hours: hours
+                };
+                requests.push(payload);
             }
-          );
-        }
-      });
+        });
     });
-  }
+
+    // Log all payloads for debugging
+    console.log('All payloads to be sent:', requests);
+
+    // Send the requests sequentially
+    const sendSequentially = async () => {
+        for (const payload of requests) {
+            try {
+                await this.timesheetService.saveTimeCard(payload).toPromise();
+                console.log('Saved successfully:', payload);
+            } catch (error) {
+                console.error('Error saving:', payload, error);
+            }
+        }
+    };
+
+    // Execute the sequential sending
+    sendSequentially().then(() => {
+        console.log('All timecards saved');
+    }).catch(error => {
+        console.error('Error in save process:', error);
+    });
+}
 
 
   // Determines the number of days in a given month and year

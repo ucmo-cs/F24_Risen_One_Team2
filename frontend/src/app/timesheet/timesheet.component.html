@@ -65,7 +65,7 @@
                 <td *ngFor="let day of days">
                   <input
                     type="number"
-                    [(ngModel)]="employee.hours[day - 1]"
+                    [(ngModel)]="employee.hours[day]"
                     class="shortBasicInput-cost"
                     [disabled]="!isEditing"
                   />
@@ -80,7 +80,7 @@
                 <td><strong>Total Hours</strong></td>
                 <td *ngFor="let day of days; let i = index">
                   <!-- Leave all cells blank except the last one -->
-                  <ng-container *ngIf="i === days.length - 1"> </ng-container>
+                  <ng-container *ngIf="i === days.length "> </ng-container>
                 </td>
                 <!-- Extra cell to ensure alignment with total hours heading -->
                 <td class="total-column">{{ calculateGrandTotalHours() }}</td>
