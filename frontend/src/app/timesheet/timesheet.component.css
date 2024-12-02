@@ -20,7 +20,7 @@ body {
   border-radius: 25px;
   padding: 5px;
   height: 90%;
-  width: 90%;
+  width: 95%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 .box-1 {
@@ -42,7 +42,7 @@ body {
 }
 .box-2-inside {
   margin: 2px solid black;
-  width: auto;
+  width: 100%;
 }
 .box-3 {
   width: 100%;
