@@ -200,8 +200,10 @@ table .mat-column-total {
   color: white;
   font-size: 16px;
   border-radius: 25px;
-  height: 40px;
+  height: auto;
+  width: auto;
   margin-left: 1%;
+  position: auto;
 }
 .button-save:hover {
   background-color: white;

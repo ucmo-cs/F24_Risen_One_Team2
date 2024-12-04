@@ -7,8 +7,8 @@
   </head>
   <body>
     <div class="container">
-      <h1>Monthly Time Sheet</h1>
-
+      <h2>Monthly Time Sheet</h2>
+    
       <div class="box-1">
         <div class="form-group">
           <div>
@@ -31,8 +31,18 @@
               </option>
             </select>
           </div>
+          <div>
+            <label for="year">Select Year:</label>
+            <select id="year" class="selectorBox" [(ngModel)]="selectedYear">
+              <option *ngFor="let year of years" [value]="year">
+                {{ year }}
+              </option>
+            </select>
+          </div>
         </div>
       </div>
+
+
 
       <div class="buttons">
         <button (click)="exportToPDF()" class="button-exportToPDF">
@@ -45,9 +55,13 @@
         >
           Edit
         </button>
-        <button type="button"(click)="saveTimesheet()" class="button-save">Save</button>
+        <button (click)="saveTimesheet()" class="button-save">Save</button>
       </div>
-
+      
+      <div *ngIf="isLoading" class="loading-indicator">
+        Loading data...
+      </div>
+      
       <div class="box-2">
         <div class="box-2-inside">
           <h2>{{ selectedMonth }} {{ selectedYear }}</h2>
@@ -80,7 +94,7 @@
                 <td><strong>Total Hours</strong></td>
                 <td *ngFor="let day of days; let i = index">
                   <!-- Leave all cells blank except the last one -->
-                  <ng-container *ngIf="i === days.length "> </ng-container>
+                  <ng-container *ngIf="i === days.length - 1"> </ng-container>
                 </td>
                 <!-- Extra cell to ensure alignment with total hours heading -->
                 <td class="total-column">{{ calculateGrandTotalHours() }}</td>
