@@ -34,6 +34,7 @@ export class TimeComponent{
     { value: 'BAER', viewValue: 'BAER' },
     { value: 'XYZ Corp', viewValue: 'XYZ Corp' },
     { value: 'Alpha Co', viewValue: 'Alpha Co' },
+    { value: 'Big Corp', viewValue: 'Big Corp' },
   ];
 
   // Array to store the months displayed in the dropdown
