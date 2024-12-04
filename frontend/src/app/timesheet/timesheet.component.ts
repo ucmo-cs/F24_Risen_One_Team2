@@ -127,13 +127,9 @@ export class TimeComponent {
         return;
     }
 
-    // Create an array to store all the requests
     const requests: any[] = [];
-
-    // First, gather all the data that needs to be sent
     this.employees.forEach((employee) => {
         Object.entries(employee.hours).forEach(([day, hours]) => {
-            // Convert day back to number and check if hours exist
             const dayNum = parseInt(day);
             if (hours && hours > 0) {
                 const payload = {
@@ -200,7 +196,6 @@ export class TimeComponent {
     this.updateDays();
   }
 
-  // Updates days array and resets employee hours when month or year changes
   updateDays() {
     if (this.selectedMonth && this.selectedYear) {
       const daysInMonth = this.getDaysInMonth(
