@@ -26,7 +26,7 @@ export class TimeComponent{
   managerDate: string = '';
   isEditing: boolean = false;
   num_days: number = 28;
-  years: number[] = [];
+  //years: number[] = [];
   isLoading: boolean = false;
 
   // Array to store the projects in the dropdown
