@@ -2,6 +2,19 @@ const AWS = require('aws-sdk');
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 exports.handler = async (event) => {
+    // Handle CORS preflight request (OPTIONS)
+    if (event.httpMethod === 'OPTIONS') {
+        return {
+            statusCode: 200,
+            headers: {
+                'Access-Control-Allow-Origin': '*', // Allows all origins (can be restricted to specific origins)
+                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET', // Allow specific HTTP methods
+                'Access-Control-Allow-Headers': 'Content-Type', // Allow Content-Type header
+            },
+            body: '',
+        };
+    }
+
     const { projectName, monthYear, employeeName, day, hours } = JSON.parse(event.body);
     const dayIndex = day - 1; // Convert day to 0-indexed
 
@@ -50,14 +63,27 @@ exports.handler = async (event) => {
 
         await dynamoDb.update(updateParams).promise();
 
+        // Return the response with CORS headers
         return {
             statusCode: 200,
+            headers: {
+                'Access-Control-Allow-Origin': '*', // Allows all origins (can be restricted to specific origins)
+                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET', // Allow specific HTTP methods
+                'Access-Control-Allow-Headers': 'Content-Type', // Allow Content-Type header
+            },
             body: JSON.stringify({ message: 'Timecard updated successfully' }),
         };
     } catch (error) {
         console.error('Error updating timecard:', error);
+
+        // Return the error response with CORS headers
         return {
             statusCode: 500,
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
+                'Access-Control-Allow-Headers': 'Content-Type',
+            },
             body: JSON.stringify({ message: 'Error updating timecard', error: error.message }),
         };
     }

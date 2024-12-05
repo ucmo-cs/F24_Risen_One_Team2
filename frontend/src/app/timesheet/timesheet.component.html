@@ -7,8 +7,8 @@
   </head>
   <body>
     <div class="container">
-      <h1>Monthly Time Sheet</h1>
-
+      <h2>Monthly Time Sheet</h2>
+    
       <div class="box-1">
         <div class="form-group">
           <div>
@@ -42,6 +42,8 @@
         </div>
       </div>
 
+
+
       <div class="buttons">
         <button (click)="exportToPDF()" class="button-exportToPDF">
           Export
@@ -55,7 +57,11 @@
         </button>
         <button (click)="saveTimesheet()" class="button-save">Save</button>
       </div>
-
+      
+      <div *ngIf="isLoading" class="loading-indicator">
+        Loading data...
+      </div>
+      
       <div class="box-2">
         <div class="box-2-inside">
           <h2>{{ selectedMonth }} {{ selectedYear }}</h2>
