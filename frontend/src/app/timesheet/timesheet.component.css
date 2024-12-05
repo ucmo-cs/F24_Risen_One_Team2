@@ -51,7 +51,6 @@ body {
   width: 80%; /* Makes it narrower for better focus, centered using margin */
   margin: 20px auto; /* Centers the div horizontally and adds spacing above/below */
   border: 2px solid grey; /* Retain the border */
-  border-top: none; /* Alternate syntax for `border-top: 0px` */
   padding: 20px 10px; /* Adds padding for spacing */
   background-color: #f9f9f9; /* Optional: Adds a light background for separation */
   border-radius: 5px; /* Optional: Rounds corners for a softer appearance */
