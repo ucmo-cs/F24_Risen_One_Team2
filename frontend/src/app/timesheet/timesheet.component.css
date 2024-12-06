@@ -265,7 +265,7 @@ table td:last-child {
   text-align: center;
 }
 .total-column {
-  border: 1px black solid;
+  border: 1px solid;
   text-align: right;
   padding-right: 10px;
 }

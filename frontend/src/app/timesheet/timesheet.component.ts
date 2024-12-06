@@ -21,16 +21,17 @@ interface TimeCardData {
   templateUrl: './timesheet.component.html',
   styleUrls: ['./timesheet.component.css'],
 })
-export class TimeComponent{
+export class TimeComponent {
   managerSignature: string = '';
   managerDate: string = '';
   isEditing: boolean = false;
-  num_days: number = 28;
+  num_days: number = 31;
   //years: number[] = [];
   isLoading: boolean = false;
 
   // Array to store the projects in the dropdown
   projects: previousRequest[] = [
+    { value: '', viewValue: 'Select Project' },
     { value: 'BAER', viewValue: 'BAER' },
     { value: 'XYZ Corp', viewValue: 'XYZ Corp' },
     { value: 'Alpha Co', viewValue: 'Alpha Co' },
@@ -71,7 +72,7 @@ export class TimeComponent{
   ];
 
   constructor(
-    private router: Router, 
+    private router: Router,
     private timesheetService: TimesheetService,
     private snackBar: MatSnackBar
   ) {}
@@ -82,20 +83,20 @@ export class TimeComponent{
     this._selectedYear = new Date().getFullYear();
     this._selectedProject = this.projects[0].value;
     this.loadTimeCardData();
-}
+  }
 
   // Initialize all the hours in the table
   initializeHours(): { [key: number]: number } {
     const hours: { [key: number]: number } = {};
     this.days.forEach((day) => {
-        hours[day] = 0;
+      hours[day] = 0;
     });
     return hours;
   }
 
   initializeYears() {
     const currentYear = new Date().getFullYear();
-    this.years = Array.from({length: 10}, (_, i) => currentYear - 5 + i);
+    this.years = Array.from({ length: 10 }, (_, i) => currentYear - 5 + i);
   }
 
   // Calculates the total hours displayed in the total column
@@ -151,8 +152,8 @@ export class TimeComponent{
   // Save function that logs saving action (placeholder for actual save logic)
   saveTimesheet() {
     if (!this.selectedProject || !this.selectedMonth || !this.selectedYear) {
-        this.showSnackBar('Please select project, month, and year');
-        return;
+      this.showSnackBar('Please select project, month, and year');
+      return;
     }
 
     // Create an array to store all the requests
@@ -169,7 +170,7 @@ export class TimeComponent{
             monthYear: `${this.selectedYear}-${this.selectedMonth.trim()}`,
             employeeName: employee.name,
             day: adjustedDay,
-            hours: hours
+            hours: hours,
           };
           requests.push(payload);
         }
@@ -181,24 +182,25 @@ export class TimeComponent{
 
     // Send the requests sequentially
     const sendSequentially = async () => {
-        for (const payload of requests) {
-            try {
-                await this.timesheetService.saveTimeCard(payload).toPromise();
-                this.showSnackBar('Timesheet saved successfully');
-            } catch (error) {
-                console.error('Error saving:', payload, error);
-            }
+      for (const payload of requests) {
+        try {
+          await this.timesheetService.saveTimeCard(payload).toPromise();
+          this.showSnackBar('Timesheet saved successfully');
+        } catch (error) {
+          console.error('Error saving:', payload, error);
         }
+      }
     };
 
     // Execute the sequential sending
-    sendSequentially().then(() => {
+    sendSequentially()
+      .then(() => {
         console.log('All timecards saved');
-    }).catch(error => {
+      })
+      .catch((error) => {
         console.error('Error in save process:', error);
-    });
-}
-
+      });
+  }
 
   // Determines the number of days in a given month and year
   getDaysInMonth(month: string, year: number): number {
@@ -232,7 +234,7 @@ export class TimeComponent{
   }
 
   // Private property and getter/setter for selectedProject
-  private _selectedProject:  string = '';
+  private _selectedProject: string = '';
   get selectedProject(): string {
     return this._selectedProject;
   }
@@ -257,43 +259,45 @@ export class TimeComponent{
     });
   }
 
-  // 
+  //
   // Getter for timesheet data
   //
   loadTimeCardData(): void {
     if (!this.selectedProject || !this.selectedMonth || !this.selectedYear) {
-        this.showSnackBar('Please select project, month, and year');
-        return;
+      this.showSnackBar('Please select project, month, and year');
+      return;
     }
 
     this.isLoading = true;
     const monthYear = `${this.selectedYear}-${this.selectedMonth.trim()}`;
-    
-    this.timesheetService.getTimeCard(this.selectedProject, monthYear).subscribe({
+
+    this.timesheetService
+      .getTimeCard(this.selectedProject, monthYear)
+      .subscribe({
         next: (response) => {
-            if (response && response.data) {
-                this.resetEmployeeHours();
-                this.processTimeCardData(response.data);
-                this.showSnackBar('Timecard data loaded successfully');
-            } else {
-                this.showSnackBar('No timecard data found');
-            }
-            this.isLoading = false;
+          if (response && response.data) {
+            this.resetEmployeeHours();
+            this.processTimeCardData(response.data);
+            this.showSnackBar('Timecard data loaded successfully');
+          } else {
+            this.showSnackBar('No timecard data found');
+          }
+          this.isLoading = false;
         },
         error: (error) => {
-            console.error('Error loading timecard data:', error);
-            this.isLoading = false;
-            this.showSnackBar('Error loading timecard data');
-        }
-    });
+          console.error('Error loading timecard data:', error);
+          this.isLoading = false;
+          this.showSnackBar('Error loading timecard data');
+        },
+      });
   }
 
   processTimeCardData(data: TimeCardData[]): void {
     data.forEach((timecard: TimeCardData) => {
-      const employee = this.employees.find(emp => 
-        emp.name === timecard.employeeName
+      const employee = this.employees.find(
+        (emp) => emp.name === timecard.employeeName
       );
-      
+
       if (employee) {
         // Convert DailyHours to the format needed for the table
         Object.entries(timecard.DailyHours).forEach(([day, hours]) => {
@@ -304,7 +308,7 @@ export class TimeComponent{
       }
     });
   }
-  
+
   updateDays() {
     if (this.selectedMonth && this.selectedYear) {
       const daysInMonth = this.getDaysInMonth(
@@ -314,14 +318,16 @@ export class TimeComponent{
       this.days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
       this.num_days = daysInMonth;
       this.resetEmployeeHours();
-      this.loadTimeCardData(); 
+      this.loadTimeCardData();
     }
   }
 
   updateEmployeeHours(data: any): void {
     // Assuming data is an array of objects with employeeName and hours
     data.forEach((entry: any) => {
-      const employee = this.employees.find(e => e.name === entry.employeeName);
+      const employee = this.employees.find(
+        (e) => e.name === entry.employeeName
+      );
       if (employee) {
         employee.hours[entry.day] = entry.hours;
       }
@@ -341,6 +347,4 @@ export class TimeComponent{
   onProjectChange(): void {
     this.loadTimeCardData();
   }
-
-
 }
