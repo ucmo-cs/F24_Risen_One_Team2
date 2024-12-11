@@ -155,7 +155,6 @@ export class TimeComponent {
       this.showSnackBar('Please select project, month, and year');
       return;
     }
-
     // Create an array to store all the requests
     const requests: any[] = [];
 
